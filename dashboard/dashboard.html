@@ -1,0 +1,119 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vaultix Dashboard</title>
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="user-profile">
+                <h3 id="userNameDisplay">Loading...</h3>
+                <p id="userPhoneDisplay">03xx-xxxxxxx</p>
+            </div>
+            <nav>
+               <ul class="sidebar-menu">
+    <li class="active" onclick="location.href='../dashboard/dashboard.html'">
+        <span class="icon">🏠</span> Home
+    </li>
+    
+   <li onclick="location.href='../notification/notification.html'" style="position: relative;">
+    <span class="icon"><i class="fas fa-bell"></i></span> 
+    Notification
+    <span id="notiBadge" style="display: none; height: 10px; width: 10px; background-color: red; border-radius: 50%; position: absolute; top: 12px; left: 30px;"></span>
+</li>
+    
+    <li onclick="location.href='../Faq/faq.html'">
+        <span class="icon">❓</span> FAQ
+    </li>
+    
+    <li onclick="location.href='../deposit/deposit.html'">
+        <span class="icon">💰</span> Deposit
+    </li>
+    
+    <li onclick="location.href='../withdraw/withdraw.html'">
+        <span class="icon">🏧</span> Withdraw
+    </li>
+    
+    <li onclick="location.href='../refferal-system/refferal.html'">
+        <span class="icon">👥</span> Referral System
+    </li>
+</ul>
+            </nav>
+            <button id="logoutBtn" class="logout-btn">Logout</button>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Dashboard User</h1>
+                <div class="wallet-container">
+                    <button class="wallet-btn" id="walletToggle">Wallet</button>
+                    <div class="wallet-menu" id="walletMenu">
+                        <button class="deposit-btn">Deposit</button>
+                        <button class="withdraw-btn" id="withdrawBtnPro" disabled>Withdraw 🔒</button>
+                    </div>
+                </div>
+            </header>
+
+            <section class="stats-row">
+                <div class="stat-card blue">
+                    <p>Total Balance</p>
+                    <h2 id="userBalancePro">PKR 0.00</h2>
+                </div>
+                <div class="stat-card purple">
+                    <p>Referral Balance</p>
+                    <h2 id="referralBalancePro">PKR 0.00</h2>
+                    <small id="refProgress">Referrals: 0/4</small>
+                </div>
+                <div class="stat-card green">
+                    <p>Daily Bonus</p>
+                    <h2 id="dailyBonusPro">PKR 150.00</h2>
+                </div>
+            </section>
+
+            <section class="bottom-grid">
+                <div class="card glass-card">
+                    <h3>Investment Profit Graph</h3>
+                    <div class="circle-box">
+                        <svg viewBox="0 0 36 36" class="circular-chart">
+                            <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path id="profitArc" class="circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                        <div class="percentage-text">
+                            <span id="liveProfitRs">0.00rs</span>
+                            <span id="liveMultiplier">1.00x</span>
+                            <small id="profitPercent">0%</small>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card glass-card">
+                    <h3>ACTIVATE INVESTMENT VAULT</h3>
+                    <div class="glass-input-container">
+                        <label>ENTER LOCK AMOUNT</label>
+                        <input type="number" id="lockAmountInput" placeholder="300.00rs" class="cyber-input">
+                    </div>
+                  <button id="lockBtnPro" onclick="handleLockAction()" class="main-action-btn">LOCK YOUR MONEY NOW</button>
+                    <p class="info-text">Cyber-Neon Vault architecture update har ghante hota hai.</p>
+                </div>
+
+                <div class="card vault-container-card">
+                    <div class="vault-chamber">
+                        <div class="lock-icon" id="lockIcon">🔒</div>
+                        <div class="vault-info">
+                            <p>Locked Money: <span id="lockedAmountDisplay">PKR 0.00</span></p>
+                            <div class="multiplier-tag">MULTIPLIER: 1.05x</div>
+                            <p>REAL-TIME PROFIT: <span id="vaultProfitDisplay">PKR 0.00</span></p>
+                        </div>
+                        <button id="claimBtn" class="claim-btn hidden">CLAIM NOW</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script type="module" src="dashboard-logic.js"></script>
+</body>
+</html>

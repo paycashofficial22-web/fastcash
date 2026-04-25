@@ -1,0 +1,32 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications | Money Logic</title>
+    <link rel="stylesheet" href="notification.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="header">
+        <button onclick="window.location.href='../dashboard/dashboard.html'"><i class="fas fa-arrow-left"></i></button>
+        <h2>Notifications</h2>
+    </div>
+
+    <div class="container">
+        <div class="section-title">SYSTEM UPDATE</div>
+        <div class="msg-card system-card">
+            <i class="fas fa-bullhorn icon-bg"></i>
+            <p id="announcementText">Checking for latest announcements...</p>
+            <span id="msgTime" class="time-stamp"></span>
+        </div>
+
+        <div class="section-title">PERSONAL MESSAGES</div>
+        <div id="personalMsgArea">
+            <p class="no-msg">No new private messages for you.</p>
+        </div>
+    </div>
+
+    <script type="module" src="notification.logic.js"></script>
+</body>
+</html>

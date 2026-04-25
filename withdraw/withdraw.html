@@ -1,0 +1,61 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Withdraw | MoneyLogic Pro</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="withdraw.css">
+</head>
+<body>
+
+    <div class="app-container">
+        <div class="withdraw-card">
+            <div class="header">
+                <a href="../dashboard/dashboard.html" class="back-btn"><i class="fas fa-chevron-left"></i></a>
+                <h3>Withdrawal</h3>
+                <div class="header-icon"><i class="fas fa-wallet"></i></div>
+            </div>
+
+            <div class="status-box">
+                <div class="status-info">
+                    <span id="statusHeading">Checking Network...</span>
+                    <i class="fas fa-shield-check" id="lockIcon"></i>
+                </div>
+                <div class="bar-bg">
+                    <div class="bar-fill" id="progressBar"></div>
+                </div>
+                <p id="statusSubtext">Verifying your account requirements</p>
+            </div>
+
+            <div class="form-body" id="withdrawForm">
+                <div class="input-group">
+                    <label>Payment Method</label>
+                    <select id="method">
+                        <option value="EasyPaisa">EasyPaisa</option>
+                        <option value="JazzCash">JazzCash</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label>Account Number</label>
+                    <input type="number" id="accountNumber" placeholder="03xxxxxxxxx">
+                </div>
+
+                <div class="input-group">
+                    <label>Amount (Min: 500)</label>
+                    <input type="number" id="amount" placeholder="Minimum 500 PKR">
+                </div>
+
+                <button class="submit-btn" id="submitBtn" onclick="processWithdraw()">
+                    Confirm Cashout <i class="fas fa-paper-plane"></i>
+                </button>
+            </div>
+
+            <p class="security-text"><i class="fas fa-user-lock"></i> 256-bit Secure Transaction</p>
+        </div>
+    </div>
+
+    <script type="module" src="withdraw.js"></script>
+</body>
+</html>

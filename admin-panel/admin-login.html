@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | MoneyLogic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --bg: #0f172a;
+            --card: #1e293b;
+            --accent: #3b82f6;
+            --text: #f8fafc;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--bg);
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            color: var(--text);
+        }
+
+        .login-card {
+            background: var(--card);
+            padding: 40px;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-card h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            color: var(--accent);
+        }
+
+        .login-card p {
+            font-size: 14px;
+            color: #94a3b8;
+            margin-bottom: 30px;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        .input-group i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #64748b;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px 15px 12px 45px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            box-sizing: border-box;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 8px rgba(59, 130, 246, 0.3);
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--accent);
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            font-size: 16px;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .login-btn:hover {
+            background: #2563eb;
+            transform: translateY(-2px);
+        }
+
+        #error-msg {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 15px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="login-card">
+        <i class="fas fa-user-shield" style="font-size: 50px; color: var(--accent); margin-bottom: 15px;"></i>
+        <h1>Admin Control</h1>
+        <p>Enter your secret password to manage MoneyLogic</p>
+
+        <div class="input-group">
+            <i class="fas fa-lock"></i>
+            <input type="password" id="adminPass" placeholder="Secret Password">
+        </div>
+
+        <button class="login-btn" onclick="verifyAdmin()">Login Now</button>
+        <p id="error-msg">Incorrect Password! Access Denied.</p>
+    </div>
+
+    <script>
+        function verifyAdmin() {
+            const pass = document.getElementById("adminPass").value;
+            const error = document.getElementById("error-msg");
+
+            // Aap yahan apna password set kar sakte hain
+            if (pass === "admin1234") { 
+                sessionStorage.setItem("adminAuth", "true");
+                window.location.href = "admin.html";
+            } else {
+                error.style.display = "block";
+                setTimeout(() => {
+                    error.style.display = "none";
+                }, 3000);
+            }
+        }
+    </script>
+
+</body>
+</html>

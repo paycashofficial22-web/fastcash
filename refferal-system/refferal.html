@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Refer & Earn | MoneyLogic</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="refferal.css">
+</head>
+<body>
+
+    <div class="referral-wrapper">
+        <header class="ref-header">
+            <button onclick="window.location.href='../dashboard/dashboard.html'" class="back-btn">
+                <i class="fa-solid fa-arrow-left"></i>
+            </button>
+            <h1>Invite Friends</h1>
+        </header>
+
+        <main class="ref-card">
+            <div class="ref-icon-area">
+                <i class="fa-solid fa-users-rectangle"></i>
+            </div>
+            
+            <h2>Refer & Unlock Withdraw</h2>
+            <p>Apne 4 doston ko join karwayein aur apna withdrawal hamesha ke liye unlock karein.</p>
+
+            <div class="progress-container">
+                <div class="progress-info">
+                    <span>Progress</span>
+                    <span id="refStatusText">0 / 4 Referrals</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div id="refProgressBar" class="progress-fill"></div>
+                </div>
+            </div>
+
+            <div class="link-wrapper">
+                <label>Apka Unique Referral Link</label>
+                <div class="copy-box">
+                    <input type="text" id="referralLink" readonly value="Loading link...">
+                    <button id="copyBtn" onclick="copyRefLink()">
+                        <i class="fa-regular fa-copy"></i> Copy
+                    </button>
+                </div>
+            </div>
+
+            <div class="share-options">
+                <button onclick="shareOnWhatsApp()" class="share-btn whatsapp">
+                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
+                </button>
+                <button onclick="shareOnFacebook()" class="share-btn facebook">
+                    <i class="fa-brands fa-facebook"></i> Facebook
+                </button>
+            </div>
+
+            <div class="requirements-box">
+                <div class="req-item" id="req1">
+                    <i class="fa-solid fa-circle-check"></i>
+                    <span>Register 4 active users</span>
+                </div>
+                <div id="withdrawStatusLabel" class="status-badge locked">
+                    <i class="fa-solid fa-lock"></i> Withdraw Locked
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="refferal.logic.js"></script>
+</body>
+</html>

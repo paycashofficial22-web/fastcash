@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Vaultix</title>
+    <link rel="stylesheet" href="faq.css">
+</head>
+<body>
+    <div class="faq-container">
+        <button class="back-btn" onclick="location.href='../dashboard/dashboard.html'">← Back to Dashboard</button>
+        
+        <h1 class="faq-title">Frequently Asked Questions</h1>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>What is the minimum lock amount?</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                The minimum amount to lock in the investment vault is PKR 300.00.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>How much profit do I get?</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                You get a 10% daily profit on your locked amount after 24 hours.
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFaq(this)">
+                <span>When can I withdraw my money?</span>
+                <span class="arrow">▼</span>
+            </div>
+            <div class="faq-answer">
+                You can withdraw once you have successfully referred 4 active users to the platform.
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleFaq(element) {
+            element.parentElement.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

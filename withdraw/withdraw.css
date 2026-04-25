@@ -1,0 +1,57 @@
+ /* withdraw.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+body {
+    margin: 0; padding: 0;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+    color: white; min-height: 100vh;
+    display: flex; justify-content: center; align-items: center;
+}
+
+.app-container { width: 100%; max-width: 420px; padding: 20px; }
+
+.withdraw-card {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 25px; padding: 25px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.back-btn { color: white; text-decoration: none; background: rgba(255,255,255,0.1); padding: 8px 12px; border-radius: 10px; }
+.header-icon { color: #fbbf24; font-size: 20px; }
+
+/* Status Progress Box */
+.status-box {
+    background: rgba(255,255,255,0.07); padding: 15px; border-radius: 15px; margin-bottom: 25px;
+}
+.status-info { display: flex; justify-content: space-between; margin-bottom: 10px; font-size: 14px; font-weight: 600; }
+.bar-bg { background: rgba(255,255,255,0.1); height: 8px; border-radius: 10px; overflow: hidden; }
+.bar-fill { 
+    background: linear-gradient(90deg, #6366f1, #a855f7); 
+    width: 0%; height: 100%; transition: 1s ease;
+    box-shadow: 0 0 10px #6366f1;
+}
+#statusSubtext { font-size: 11px; color: #94a3b8; margin-top: 8px; }
+
+/* Form Elements (No Blur) */
+.form-body { opacity: 1; transition: 0.3s; }
+.input-group { margin-bottom: 18px; }
+.input-group label { display: block; font-size: 12px; color: #94a3b8; margin-bottom: 8px; }
+.input-group input, .input-group select {
+    width: 100%; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1);
+    padding: 12px; border-radius: 12px; color: white; outline: none; box-sizing: border-box;
+}
+.input-group input:focus { border-color: #6366f1; background: rgba(255,255,255,0.1); }
+
+/* Submission Button */
+.submit-btn {
+    width: 100%; background: #6366f1; color: white; border: none;
+    padding: 15px; border-radius: 15px; font-weight: 700; font-size: 15px;
+    cursor: pointer; display: flex; justify-content: center; gap: 10px; align-items: center;
+    box-shadow: 0 10px 20px rgba(99, 102, 241, 0.3); transition: 0.3s;
+}
+.submit-btn:hover { transform: translateY(-2px); background: #4f46e5; }
+.security-text { text-align: center; font-size: 10px; color: #475569; margin-top: 20px; }

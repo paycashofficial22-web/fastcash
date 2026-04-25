@@ -1,0 +1,77 @@
+body {
+    background: #f0f4f8;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.faq-container {
+    max-width: 700px;
+    width: 100%;
+}
+
+.back-btn {
+    background: #1a222d;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.faq-title {
+    color: #1a222d;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.faq-item {
+    background: white;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    transition: 0.3s;
+}
+
+.faq-question {
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-weight: bold;
+    color: #2c3e50;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.faq-question:hover {
+    background: #f9f9f9;
+}
+
+.faq-answer {
+    padding: 0 20px;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-out, padding 0.3s ease;
+    color: #7f8c8d;
+    line-height: 1.6;
+}
+
+/* Jab active ho toh khul jaye */
+.faq-item.active .faq-answer {
+    max-height: 200px;
+    padding: 20px;
+    border-top: 1px solid #eee;
+}
+
+.faq-item.active .arrow {
+    transform: rotate(180deg);
+}
+
+.arrow {
+    transition: 0.3s;
+    font-size: 12px;
+}
