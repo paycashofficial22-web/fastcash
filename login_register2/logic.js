@@ -1,77 +1,95 @@
- // URL se ID pakar kar box mein khud likh dena
+ import { auth, db } from "../firebase-config.js";
+import { 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword,
+    onAuthStateChanged 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+import { 
+    doc, 
+    setDoc, 
+    getDoc, 
+    serverTimestamp 
+} from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// ==========================================
+// 1. AUTOMATIC REFERRAL ID DETECTION
+// ==========================================
+// Jab link register.html?ref=USER123 jaisa hoga to ye khud idr se uthayga
 const urlParams = new URLSearchParams(window.location.search);
-const refFromURL = urlParams.get('ref'); 
+const referralFromLink = urlParams.get('ref');
 
-if (refFromURL) {
-    const refInput = document.getElementById("refCode");
-    if (refInput) {
-        refInput.value = refFromURL;
-        refInput.readOnly = true; // User isay chhair na sakay
-        refInput.style.backgroundColor = "#e0e0e0"; // Thora grey rang taake pata chale locked hai
+// Jaise hi page load ho, agar link me ID hai to box me likh do
+window.addEventListener('DOMContentLoaded', () => {
+    const refInputBox = document.getElementById('referralInput');
+    if (referralFromLink && refInputBox) {
+        refInputBox.value = referralFromLink;
+        // Isay 'readonly' rakha hai taky user change na kr saky
+        refInputBox.readOnly = true; 
     }
-}
- 
- 
- 
- 
- // Pehle Firebase config se 'db' ko import karein
-import { db } from '../firebase-config.js'; 
-import { doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+});
 
-// Registration Logic
+// ==========================================
+// 2. REGISTRATION LOGIC (With 4 Boxes)
+// ==========================================
 const regForm = document.getElementById('registerForm');
 if (regForm) {
-    regForm.addEventListener('submit', async (e) => {
+    regForm.onsubmit = async (e) => {
         e.preventDefault();
-        
+
         const name = document.getElementById('regName').value;
         const phone = document.getElementById('regPhone').value;
         const pass = document.getElementById('regPass').value;
+        const finalRef = document.getElementById('referralInput').value; // Automatic box se lega
+
+        // Phone number ko backend ke liye email format me badalna
+        const email = phone + "@fastcash.com";
 
         try {
-            // --- Is naye block se purana wala replace karein ---
-await setDoc(doc(db, "users", phone), {
-    fullName: name,
-    phoneNumber: phone,
-    password: pass,
-    globalBalance: 0,
-    isLocked: false,
-    lockedAt: null,
-    
-    // Naye Zarori Fields:
-    uid: Math.floor(1000 + Math.random() * 9000).toString(), // Is user ki apni ID
-    referredBy: document.getElementById("refCode").value || refFromURL || null, // Pichle bande ki ID
-    paidReferralCount: 0,
-    withdrawUnlocked: false,
-    isPaid: false
-});
-            alert("Mobarak hu! AP ka account Firebase par bn gyaa ha.");
+            // User banayein Auth me
+            const userCredential = await createUserWithEmailAndPassword(auth, email, pass);
+            const user = userCredential.user;
+
+            // User ka poora data Firestore me save karein
+            await setDoc(doc(db, "users", user.uid), {
+                fullName: name,
+                phoneNumber: phone,
+                globalBalance: 0,
+                referralBalance: 0,
+                paidReferralCount: 0,
+                isPaid: false, // Account approve hone tak false rahy ga
+                referredBy: finalRef || "Direct", // Agar koi link ni to "Direct" likha jayga
+                uid: user.uid,
+                timestamp: serverTimestamp()
+            });
+
+            alert("Mubarak ho! Account ban gaya hai. Ab login karein.");
             window.location.href = "login.html";
+
         } catch (error) {
-            console.error("Firebase Error:", error);
-            alert("Account banane mein masla hua: " + error.message);
+            console.error(error);
+            alert("Registration Fail: " + error.message);
         }
-    });
+    };
 }
 
-// Login Logic
+// ==========================================
+// 3. LOGIN LOGIC
+// ==========================================
 const logForm = document.getElementById('loginForm');
 if (logForm) {
-    logForm.addEventListener('submit', async (e) => {
+    logForm.onsubmit = async (e) => {
         e.preventDefault();
-        const phone = document.getElementById('loginPhone').value;
-        const pass = document.getElementById('loginPass').value;
 
-        // Firebase se user ka data check karna
-        const userDoc = await getDoc(doc(db, "users", phone));
+        const phone = document.getElementById('logPhone').value;
+        const pass = document.getElementById('logPass').value;
+        const email = phone + "@fastcash.com";
 
-        if (userDoc.exists() && userDoc.data().password === pass) {
-            // Phone number ko local storage mein sirf session handle karne ke liye rakhen
-            localStorage.setItem("userPhone", phone);
+        try {
+            await signInWithEmailAndPassword(auth, email, pass);
+            // Login k baad dashboard folder se bahar hai to ../ lage ga
             window.location.href = "../dashboard/dashboard.html";
-        } else {
-            alert("Ghalat phone number ya password!");
+        } catch (error) {
+            alert("Ghalat Phone ya Password! Dubara koshish karein.");
         }
-    });
+    };
 }
-

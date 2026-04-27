@@ -1,200 +1,166 @@
- :root {
-    --neon-green: #00ff88;
-    --deep-blue: #1a222d;
+ /* PREMIUM ELECTRIC BLUE THEME */
+:root {
+    --primary-blue: #00d2ff;
+    --deep-blue: #0045ff;
+    --dark-bg: #050a18;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --neon-blue: 0 0 15px rgba(0, 210, 255, 0.4);
 }
 
-body { background: #f0f4f8; font-family: sans-serif; margin: 0; }
-.container { display: flex; height: 100vh; }
-
-/* Sidebar & Logout */
-.sidebar { width: 250px; background: var(--deep-blue); color: white; padding: 20px; display: flex; flex-direction: column; }
-.logout-btn { 
-    margin-top: auto; background: none; border: 1px solid #ff4444; color: #ff4444; 
-    padding: 10px; border-radius: 5px; cursor: pointer; transition: 0.3s;
-}
-.logout-btn:hover { background: #ff4444; color: white; }
-
-/* Main Content */
-.main-content { flex: 1; padding: 30px; overflow-y: auto; }
-header { display: flex; justify-content: space-between; align-items: center; }
-
-/* Wallet Slide Up Menu */
-.wallet-container { position: relative; }
-.wallet-menu {
-    position: absolute; top: 100%; right: 0; background: white; padding: 10px;
-    border-radius: 12px; box-shadow: 0 10px 20px rgba(0,0,0,0.1);
-    display: flex; flex-direction: column; gap: 10px;
-    opacity: 0; visibility: hidden; transform: translateY(20px);
-    transition: 0.4s ease-out; z-index: 100;
-}
-.wallet-menu.show { opacity: 1; visibility: visible; transform: translateY(5px); }
-.wallet-btn { background: #eee; border: 1px solid #ccc; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
-
-/* --- Stats Row & Cards Styling --- */
-.stats-row {
-    display: flex;
-    gap: 20px;
-    margin: 30px 0;
-    perspective: 1000px;
+body {
+    margin: 0; padding: 0; font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top right, #0a1931, var(--dark-bg));
+    color: white; overflow-x: hidden;
 }
 
-.stat-card {
-    position: relative;
-    flex: 1;
-    padding: 25px;
-    border-radius: 20px;
+/* TOP BAR - Glass Effect */
+.top-bar {
+    position: fixed; top: 0; width: 100%; height: 70px;
+    background: rgba(5, 10, 24, 0.8); backdrop-filter: blur(20px);
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 20px; z-index: 1200; box-sizing: border-box;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.menu-btn { font-size: 26px; color: var(--primary-blue); cursor: pointer; z-index: 1300; }
+
+/* SIDEBAR - 3D Rotation */
+.sidebar {
+    position: fixed; top: 0; left: -300px; width: 280px; height: 100%;
+    background: #081225; z-index: 1100; padding-top: 90px;
+    transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: rotateY(-90deg); transform-origin: left; opacity: 0;
+    box-shadow: 20px 0 40px rgba(0,0,0,0.6);
+}
+.sidebar.active { left: 0; transform: rotateY(0deg); opacity: 1; }
+
+.nav-item {
+    display: flex; align-items: center; gap: 15px; padding: 16px 25px;
+    color: #a5b4fc; text-decoration: none; transition: 0.3s;
+}
+.nav-item:hover { background: rgba(0, 210, 255, 0.1); color: white; padding-left: 35px; }
+
+/* FLOATING CARDS ANIMATION */
+@keyframes cardFloat {
+    0% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+    100% { transform: translateY(0px); }
+}
+
+.main-content { padding: 100px 15px 30px; }
+
+.balance-card {
+    background: linear-gradient(135deg, var(--primary-blue), var(--deep-blue));
+    padding: 30px; border-radius: 24px; text-align: center;
+    box-shadow: var(--neon-blue); animation: cardFloat 4s ease-in-out infinite;
+    margin-bottom: 25px; border: 1px solid rgba(255,255,255,0.2);
+}
+
+.balance-card h1 { font-size: 38px; margin: 10px 0; font-weight: 700; text-shadow: 2px 2px 10px rgba(0,0,0,0.2); }
+
+/* STATS GRID */
+.stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+
+.stat-box {
+    background: var(--card-bg); padding: 20px; border-radius: 20px;
+    text-align: center; border: 1px solid rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px); animation: cardFloat 5s ease-in-out infinite;
+}
+
+.stat-box i { font-size: 24px; color: var(--primary-blue); margin-bottom: 10px; }
+
+
+
+
+
+
+
+
+
+
+
+
+
+ /* ========================================= */
+/* --- EPISODE 2: NEURAL CORE STYLES ---    */
+/* ========================================= */
+
+.neural-card {
+    background: rgba(10, 10, 20, 0.8);
+    border: 1px solid rgba(0, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 20px;
     color: white;
-    overflow: hidden;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(8px);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    font-family: 'Poppins', sans-serif;
 }
 
-/* Background Moving Animation */
-.stat-card::before {
-    content: "";
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 60%);
-    animation: rotateLight 8s linear infinite;
-    pointer-events: none;
-}
-
-@keyframes rotateLight {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-}
-
-/* Colors with Dynamic Gradients */
-.blue {
-    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
-    background-size: 200% 200%;
-    animation: moveGrad 6s ease infinite;
-}
-
-.purple {
-    background: linear-gradient(135deg, #581c87, #a855f7);
-    background-size: 200% 200%;
-    animation: moveGrad 6s ease infinite;
-}
-
-.green {
-    background: linear-gradient(135deg, #064e3b, #10b981);
-    background-size: 200% 200%;
-    animation: moveGrad 6s ease infinite;
-}
-
-@keyframes moveGrad {
-    0% { background-position: 0% 50%; }
-    50% { background-position: 100% 50%; }
-    100% { background-position: 0% 50%; }
-}
-
-/* Hover Effect */
-.stat-card:hover {
-    transform: translateY(-8px) scale(1.03);
-    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-}
-
-/* Text and Labels */
-.stat-card h3 {
-    font-size: 13px;
-    margin-bottom: 8px;
-    text-transform: uppercase;
-    opacity: 0.9;
-    letter-spacing: 0.5px;
-}
-
-.stat-card h2 {
-    font-size: 26px;
-    font-weight: 800;
-    margin: 5px 0;
-}
-
-.stat-card p {
-    font-size: 12px;
-    font-weight: 500;
-    margin-top: 10px;
-    background: rgba(0,0,0,0.2);
-    display: inline-block;
-    padding: 4px 10px;
-    border-radius: 20px;
-}
-/* Glass Input Design */
-.glass-input-container {
-    background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.2);
-    padding: 15px; border-radius: 15px; margin: 15px 0; backdrop-filter: blur(5px);
-}
-.cyber-input {
-    width: 90%; background: transparent; border: none; border-bottom: 2px solid var(--neon-green);
-    color: #333; font-size: 18px; outline: none; padding: 5px;
-}
-.main-action-btn {
-    background: var(--neon-green); border: none; width: 100%; padding: 15px;
-    border-radius: 12px; font-weight: bold; cursor: pointer; box-shadow: 0 0 15px rgba(0,255,136,0.3);
-}
-
-/* Circle Center Fix */
-.circle-box { position: relative; width: 150px; margin: 0 auto; }
-.percentage-text {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    display: flex; flex-direction: column; text-align: center;
-}
-.circular-chart { max-width: 150px; }
-.circle-bg { fill: none; stroke: #eee; stroke-width: 3; }
-.circle { fill: none; stroke: var(--neon-green); stroke-width: 3; stroke-linecap: round; }
-
-/* Vault Chamber */
-.vault-chamber {
-    background: #111; color: white; padding: 20px; border-radius: 25px;
-    border: 2px solid var(--neon-green); box-shadow: inset 0 0 20px var(--neon-green);
-}
-.shining-lock { text-shadow: 0 0 15px var(--neon-green); animation: glow 1s infinite alternate; }
-@keyframes glow { from { opacity: 0.5; } to { opacity: 1; } }
-
-.hidden { display: none; }
-.claim-btn { background: var(--neon-green); border: none; padding: 10px 20px; border-radius: 10px; cursor: pointer; font-weight: bold; margin-top: 10px; } 
-
-
-.sidebar-menu {
-    list-style: none;
-    padding: 0;
-    margin-top: 30px; /* Top se thora gap */
-}
-
-.sidebar-menu li {
+/* Brain Container and Energy Sphere */
+.brain-container {
     display: flex;
+    justify-content: center;
     align-items: center;
-    padding: 18px 25px; /* Vertical space (18px) barha di gayi hai */
-    margin-bottom: 12px; /* Har item ke darmiyan space */
-    color: #a0aec0;
-    cursor: pointer;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    font-size: 16px;
+    height: 120px;
+    margin: 15px 0;
 }
 
-/* Hover Effect */
-.sidebar-menu li:hover {
-    background: rgba(255, 255, 255, 0.08);
-    color: #00ff88; /* Neon Green on hover */
-    transform: translateX(10px); /* Smooth slide effect */
+.energy-sphere {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    position: relative;
+    background: radial-gradient(circle, #00ffff 0%, #008080 60%, rgba(0,0,0,0) 100%);
+    box-shadow: 0 0 30px #00ffff;
+    transition: 0.5s;
 }
 
-/* Active Class Styling */
-.sidebar-menu li.active {
-    background: rgba(0, 255, 136, 0.15);
-    color: white;
-    border-left: 5px solid #00ff88;
-    font-weight: bold;
+.core-dot {
+    width: 15px;
+    height: 15px;
+    background: #fff;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 15px #fff;
 }
 
-.icon {
-    margin-right: 15px; /* Icon aur text ke darmiyan space */
-    font-size: 20px;
+/* Electric Rings (Pulsing Movement) */
+.electric-ring {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%; height: 100%;
+    border: 2px solid #00ffff;
+    border-radius: 50%;
+    opacity: 0;
+    animation: neural-pulse 2s infinite linear;
 }
+
+.electric-ring:nth-child(2) { animation-delay: 0.5s; }
+
+/* Movement Animation definition */
+@keyframes neural-pulse {
+    0% { width: 100%; height: 100%; opacity: 0; }
+    10% { opacity: 0.8; }
+    80% { opacity: 0.5; width: 180%; height: 180%; }
+    100% { width: 200%; height: 200%; opacity: 0; }
+}
+
+/* Active Core State visual change (Red or tez move kry) */
+.active-core .energy-sphere {
+    background: radial-gradient(circle, #ff0055 0%, #80002a 60%, rgba(0,0,0,0) 100%);
+    box-shadow: 0 0 50px #ff0055;
+}
+.active-core .electric-ring {
+    border-color: #ff0055;
+    animation-duration: 0.8s; /* Fast movement when active */
+}
+
+/* Timer, Progress, Buttons simplified styles */
+.timer-display { font-size: 2rem; text-align: center; color: white; margin: 10px 0; }
+.mining-actions input { width: 100%; padding: 10px; margin-bottom: 10px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 5px; }
+.lock-btn, .claim-btn { width: 100%; padding: 10px; border: none; border-radius: 5px; cursor: pointer; transition: 0.3s; margin-bottom: 5px; }
+.lock-btn { background: #00ffff; color: #000; font-weight: bold; }
+.lock-btn:hover { background: #00cccc; }
+.claim-btn { background: #333; color: #888; }
+.claim-btn:not(:disabled) { background: #10b981; color: white; cursor: pointer; }

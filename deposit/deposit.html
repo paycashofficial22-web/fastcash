@@ -1,0 +1,59 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deposit Funds</title>
+    <link rel="stylesheet" href="deposit.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="deposit-card">
+        <h2 class="title">Deposit Funds</h2>
+
+        <div class="method-row">
+            <div class="method-box" id="epCard" onclick="selectMethod('easypaisa')">
+                <img src="https://img.icons8.com/color/96/easypaisa.png">
+                <span>Easypaisa</span>
+            </div>
+            <div class="method-box" id="jcCard" onclick="selectMethod('jazzcash')">
+                <img src="https://img.icons8.com/color/96/jazzcash.png">
+                <span>JazzCash</span>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <label>Enter Amount (PKR)</label>
+            <input type="number" id="userAmount" placeholder="e.g. 1500" min="100">
+        </div>
+
+        <button class="main-btn" id="searchBtn" onclick="startSearch()">Search Active Account</button>
+        
+        <div id="timerContainer" class="timer-style" style="display:none;">
+            <div class="spinner"></div>
+            <p id="timerText">Searching for active account... 10s</p>
+        </div>
+
+        <div id="accountDisplay" class="info-box" style="display:none;">
+            <div class="info-row">
+                <span>Send to Number:</span>
+                <b id="accNumber">03XXXXXXXXX</b>
+                <i class="fas fa-copy" onclick="copyText()" style="cursor:pointer; color:#00d2ff;"></i>
+            </div>
+            <div class="info-row">
+                <span>Account Name:</span>
+                <b id="accName">Admin Name</b>
+            </div>
+
+            <div class="tid-area">
+                <label>Enter Transaction ID (TID)</label>
+                <input type="text" id="tidInput" placeholder="Enter 11-12 digit ID">
+                <button class="submit-btn" onclick="sendToFirebase()">Submit Payment Request</button>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="deposit.js"></script>
+</body>
+</html>

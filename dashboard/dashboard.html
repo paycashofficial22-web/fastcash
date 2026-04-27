@@ -3,117 +3,109 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vaultix Dashboard</title>
+    <title>Dashboard | Pro Earning</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="dashboard.css">
 </head>
 <body>
-    <div class="container">
-        <aside class="sidebar">
-            <div class="user-profile">
-                <h3 id="userNameDisplay">Loading...</h3>
-                <p id="userPhoneDisplay">03xx-xxxxxxx</p>
+
+    <div class="top-bar">
+        <i class="fas fa-th-large menu-btn" id="menuToggle" onclick="toggleSidebar()"></i>
+        <div style="font-weight:bold; letter-spacing:1px; color:var(--primary-blue);">FAST CASH <span style="color:white;">UI</span></div>
+        <i class="fas fa-bell" style="color:var(--primary-blue); font-size:20px;"></i>
+    </div>
+
+    <div class="sidebar" id="mySidebar">
+        <div style="text-align:center; padding:20px;">
+            <div style="position:relative; display:inline-block;">
+                <i class="fas fa-user-circle" style="font-size:70px; color:var(--primary-blue);"></i>
+                <i class="fas fa-camera edit-icon" onclick="editName()" style="position:absolute; bottom:0; right:0; background:var(--primary-blue); color:white; padding:6px; border-radius:50%; font-size:10px; cursor:pointer; border:2px solid #081225;"></i>
             </div>
-            <nav>
-               <ul class="sidebar-menu">
-    <li class="active" onclick="location.href='../dashboard/dashboard.html'">
-        <span class="icon">🏠</span> Home
-    </li>
-    
-   <li onclick="location.href='../notification/notification.html'" style="position: relative;">
-    <span class="icon"><i class="fas fa-bell"></i></span> 
-    Notification
-    <span id="notiBadge" style="display: none; height: 10px; width: 10px; background-color: red; border-radius: 50%; position: absolute; top: 12px; left: 30px;"></span>
-</li>
-    
-    <li onclick="location.href='../Faq/faq.html'">
-        <span class="icon">❓</span> FAQ
-    </li>
-    
-    <li onclick="location.href='../deposit/deposit.html'">
-        <span class="icon">💰</span> Deposit
-    </li>
-    
-    <li onclick="location.href='../withdraw/withdraw.html'">
-        <span class="icon">🏧</span> Withdraw
-    </li>
-    
-    <li onclick="location.href='../refferal-system/refferal.html'">
-        <span class="icon">👥</span> Referral System
-    </li>
-</ul>
-            </nav>
-            <button id="logoutBtn" class="logout-btn">Logout</button>
-        </aside>
+            <h3 id="sideName" style="margin:10px 0 0; font-size:18px;">Loading...</h3>
+            <p id="sidePhone" style="color:#6366f1; font-size:12px; margin:5px 0;"></p>
+        </div>
+        
+        <nav class="nav-links">
+            <a href="dashboard.html" class="nav-item"><i class="fas fa-chart-line"></i> Dashboard</a>
+            <a href="deposit.html" class="nav-item"><i class="fas fa-wallet"></i> Deposit Money</a>
+            <a href="withdraw.html" class="nav-item"><i class="fas fa-receipt"></i> Withdraw</a>
+            <a href="referral.html" class="nav-item"><i class="fas fa-share-alt"></i> Refer & Earn</a>
+            <a href="support.html" class="nav-item"><i class="fas fa-headset"></i> Support</a>
+            <a href="#" class="nav-item" id="logoutBtn" style="color:#ff4d4d; margin-top:20px;"><i class="fas fa-power-off"></i> Logout</a>
+        </nav>
+    </div>
 
-        <main class="main-content">
-            <header>
-                <h1>Dashboard User</h1>
-                <div class="wallet-container">
-                    <button class="wallet-btn" id="walletToggle">Wallet</button>
-                    <div class="wallet-menu" id="walletMenu">
-                        <button class="deposit-btn">Deposit</button>
-                        <button class="withdraw-btn" id="withdrawBtnPro" disabled>Withdraw 🔒</button>
-                    </div>
-                </div>
-            </header>
+    <div class="main-content">
+        <div class="balance-card">
+            <p style="font-size:12px; opacity:0.8; text-transform:uppercase; letter-spacing:1px;">Available Funds</p>
+            <h1 id="totalBalance">PKR 0.00</h1>
+            <div style="margin-top:15px;">
+<button onclick="openDeposit()" style="background: white; color: var(--primary); border: none; padding: 10px 25px; border-radius: 30px; font-weight: bold; cursor: pointer;">
+    Add Cash
+</button>
+            </div>
+        </div>
 
-            <section class="stats-row">
-                <div class="stat-card blue">
-                    <p>Total Balance</p>
-                    <h2 id="userBalancePro">PKR 0.00</h2>
-                </div>
-                <div class="stat-card purple">
-                    <p>Referral Balance</p>
-                    <h2 id="referralBalancePro">PKR 0.00</h2>
-                    <small id="refProgress">Referrals: 0/4</small>
-                </div>
-                <div class="stat-card green">
-                    <p>Daily Bonus</p>
-                    <h2 id="dailyBonusPro">PKR 150.00</h2>
-                </div>
-            </section>
-
-            <section class="bottom-grid">
-                <div class="card glass-card">
-                    <h3>Investment Profit Graph</h3>
-                    <div class="circle-box">
-                        <svg viewBox="0 0 36 36" class="circular-chart">
-                            <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                            <path id="profitArc" class="circle" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
-                        </svg>
-                        <div class="percentage-text">
-                            <span id="liveProfitRs">0.00rs</span>
-                            <span id="liveMultiplier">1.00x</span>
-                            <small id="profitPercent">0%</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card glass-card">
-                    <h3>ACTIVATE INVESTMENT VAULT</h3>
-                    <div class="glass-input-container">
-                        <label>ENTER LOCK AMOUNT</label>
-                        <input type="number" id="lockAmountInput" placeholder="300.00rs" class="cyber-input">
-                    </div>
-                  <button id="lockBtnPro" onclick="handleLockAction()" class="main-action-btn">LOCK YOUR MONEY NOW</button>
-                    <p class="info-text">Cyber-Neon Vault architecture update har ghante hota hai.</p>
-                </div>
-
-                <div class="card vault-container-card">
-                    <div class="vault-chamber">
-                        <div class="lock-icon" id="lockIcon">🔒</div>
-                        <div class="vault-info">
-                            <p>Locked Money: <span id="lockedAmountDisplay">PKR 0.00</span></p>
-                            <div class="multiplier-tag">MULTIPLIER: 1.05x</div>
-                            <p>REAL-TIME PROFIT: <span id="vaultProfitDisplay">PKR 0.00</span></p>
-                        </div>
-                        <button id="claimBtn" class="claim-btn hidden">CLAIM NOW</button>
-                    </div>
-                </div>
-            </section>
-        </main>
+        <div class="stats-grid">
+            <div class="stat-box">
+                <i class="fas fa-users"></i>
+                <h2 id="refCount">0/4</h2>
+                <p style="font-size:11px; opacity:0.6;">Referrals</p>
+            </div>
+            <div class="stat-box">
+                <i class="fas fa-gift"></i>
+                <h2 id="refEarning">0</h2>
+                <p style="font-size:11px; opacity:0.6;">Bonuses</p>
+            </div>
+        </div>
     </div>
 
     <script type="module" src="dashboard-logic.js"></script>
+
+    <script type="module" src="neural-core.js"></script>
+
+
+<div id="depositContainer" style="position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.85); backdrop-filter:blur(10px); display:none; justify-content:center; align-items:center; z-index:9999;">
+    <div style="width:95%; max-width:400px; height:80vh; background:#0a0e1a; border-radius:30px; overflow:hidden; position:relative; border:1px solid rgba(255,255,255,0.1);">
+        <i class="fas fa-times-circle" onclick="closeDeposit()" style="position:absolute; top:15px; right:20px; font-size:25px; color:#ff4d4d; z-index:10000; cursor:pointer;"></i>
+        
+        <iframe src="../deposit/deposit.html" style="width:100%; height:100%; border:none;" id="depositFrame"></iframe>
+    </div>
+</div>
+
+
+
 </body>
 </html>
+
+
+
+
+episode 2
+
+ <div class="neural-card" id="neuralCoreCard">
+    <div class="card-header">
+        <h3>Neural Profit Core</h3>
+        <span id="miningStatus">Idle</span>
+    </div>
+
+    <div class="brain-container">
+        <div class="energy-sphere" id="energySphere">
+            <div class="electric-ring"></div>
+            <div class="electric-ring"></div>
+            <div class="core-dot"></div>
+        </div>
+    </div>
+
+    <div class="mining-stats">
+        <p>Locked: PKR <span id="lockedDisp">0</span></p>
+        <div class="timer-display" id="neuralTimer">24:00:00</div>
+    </div>
+
+    <div class="mining-actions">
+        <input type="number" id="lockAmount" placeholder="Enter Amount (Min 300)">
+        
+        <button onclick="handleLockup()" class="lock-btn">Lock Assets</button>
+        <button onclick="handleClaim()" id="claimBtn" class="claim-btn" disabled>Claim Yield</button>
+    </div>
+</div>

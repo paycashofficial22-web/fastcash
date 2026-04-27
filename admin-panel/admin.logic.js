@@ -90,7 +90,7 @@ window.approveUser = async (id) => {
     const userSnap = await getDoc(userRef);
     const userData = userSnap.data();
 
-    await updateDoc(userRef, { isPaid: true, globalBalance: 800 });
+    await updateDoc(userRef, { isPaid: true, globalBalance: 500 });
 
     if(userData.referredBy) {
         const refRef = doc(db, "users", userData.referredBy);
