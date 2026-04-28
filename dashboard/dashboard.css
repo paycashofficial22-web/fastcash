@@ -74,93 +74,39 @@ body {
 
 
 
+/* Episode 2 Modern Style */
+.ep2-container { padding: 20px; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; }
+.ep2-card { background: linear-gradient(145deg, #1f2233, #2b3047); color: white; border-radius: 20px; padding: 30px; border: 1px solid #3d4663; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); width: 100%; max-width: 400px;}
+.balance-display { margin-bottom: 20px; font-weight: bold; font-size: 1.1rem; color: #a5accc;}
+.balance-display #main-balance { color: white; font-size: 1.3rem; margin-left: 5px; }
 
+/* Input & Lock Button */
+#lock-input-area { display: flex; flex-direction: column; gap: 15px; }
+input#amount-to-lock { background: #1a1e2d; border: 1px solid #3d4663; color: white; padding: 12px; border-radius: 10px; width: calc(100% - 24px); transition: border-color 0.3s; }
+input#amount-to-lock:focus { border-color: #4e54c8; outline: none; }
+.btn-primary { background: linear-gradient(45deg, #4e54c8, #6973e8); color: white; border: none; padding: 12px 25px; border-radius: 10px; cursor: pointer; font-weight: bold; box-shadow: 0 4px 15px rgba(78, 84, 200, 0.4); transition: transform 0.2s, box-shadow 0.2s; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(78, 84, 200, 0.6); }
 
+/* Fan (Visualizer) Styling */
+.visualizer { margin: 30px 0; display: flex; justify-content: center; position: relative;}
+.fan-box { width: 120px; height: 120px; border: 3px dashed #3d4663; border-radius: 50%; position: relative; animation: fan-spin 3s linear infinite;}
+.fan-blade { position: absolute; background: linear-gradient(#4e54c8, transparent); border-radius: 50%; }
+.blade-1 { top: 10%; left: 45%; width: 15px; height: 45px; transform: rotate(0deg);}
+.blade-2 { top: 45%; right: 10%; width: 45px; height: 15px; transform: rotate(90deg);}
+.blade-3 { bottom: 10%; left: 45%; width: 15px; height: 45px; transform: rotate(180deg);}
+.blade-4 { top: 45%; left: 10%; width: 45px; height: 15px; transform: rotate(270deg);}
+.visualizer::after { content: "LOCK"; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #3d4663; font-weight: bold; font-size: 14px;}
 
+@keyframes fan-spin { 100% { transform: rotate(360deg); } }
 
+/* Active Lockup Details */
+.active-details { background: rgba(26, 30, 45, 0.5); border-radius: 15px; padding: 15px; margin-bottom: 20px; border: 1px solid #3d4663;}
+.status-badge { background: linear-gradient(45deg, #f0c330, #ff9e31); color: black; display: inline-block; padding: 6px 15px; border-radius: 30px; font-size: 12px; font-weight: bold; text-transform: uppercase; margin-bottom: 15px;}
+.detail-row { display: flex; justify-content: space-between; margin-bottom: 8px; color: #a5accc; font-size: 14px;}
+.detail-row span { color: white; }
+.profit-highlight { color: #00ff88; font-weight: bold; font-size: 1.2rem; }
+.profit-highlight #live-profit { color: #00ff88; margin-left: 2px;}
 
-
-
- /* ========================================= */
-/* --- EPISODE 2: NEURAL CORE STYLES ---    */
-/* ========================================= */
-
-.neural-card {
-    background: rgba(10, 10, 20, 0.8);
-    border: 1px solid rgba(0, 255, 255, 0.1);
-    border-radius: 15px;
-    padding: 20px;
-    color: white;
-    font-family: 'Poppins', sans-serif;
-}
-
-/* Brain Container and Energy Sphere */
-.brain-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 120px;
-    margin: 15px 0;
-}
-
-.energy-sphere {
-    width: 80px;
-    height: 80px;
-    border-radius: 50%;
-    position: relative;
-    background: radial-gradient(circle, #00ffff 0%, #008080 60%, rgba(0,0,0,0) 100%);
-    box-shadow: 0 0 30px #00ffff;
-    transition: 0.5s;
-}
-
-.core-dot {
-    width: 15px;
-    height: 15px;
-    background: #fff;
-    border-radius: 50%;
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    box-shadow: 0 0 15px #fff;
-}
-
-/* Electric Rings (Pulsing Movement) */
-.electric-ring {
-    position: absolute;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 100%; height: 100%;
-    border: 2px solid #00ffff;
-    border-radius: 50%;
-    opacity: 0;
-    animation: neural-pulse 2s infinite linear;
-}
-
-.electric-ring:nth-child(2) { animation-delay: 0.5s; }
-
-/* Movement Animation definition */
-@keyframes neural-pulse {
-    0% { width: 100%; height: 100%; opacity: 0; }
-    10% { opacity: 0.8; }
-    80% { opacity: 0.5; width: 180%; height: 180%; }
-    100% { width: 200%; height: 200%; opacity: 0; }
-}
-
-/* Active Core State visual change (Red or tez move kry) */
-.active-core .energy-sphere {
-    background: radial-gradient(circle, #ff0055 0%, #80002a 60%, rgba(0,0,0,0) 100%);
-    box-shadow: 0 0 50px #ff0055;
-}
-.active-core .electric-ring {
-    border-color: #ff0055;
-    animation-duration: 0.8s; /* Fast movement when active */
-}
-
-/* Timer, Progress, Buttons simplified styles */
-.timer-display { font-size: 2rem; text-align: center; color: white; margin: 10px 0; }
-.mining-actions input { width: 100%; padding: 10px; margin-bottom: 10px; background: #1a1a1a; border: 1px solid #333; color: white; border-radius: 5px; }
-.lock-btn, .claim-btn { width: 100%; padding: 10px; border: none; border-radius: 5px; cursor: pointer; transition: 0.3s; margin-bottom: 5px; }
-.lock-btn { background: #00ffff; color: #000; font-weight: bold; }
-.lock-btn:hover { background: #00cccc; }
-.claim-btn { background: #333; color: #888; }
-.claim-btn:not(:disabled) { background: #10b981; color: white; cursor: pointer; }
+/* Claim Button Styling */
+.btn-claim { background: linear-gradient(45deg, #a5accc, #7c839c); color: #1a1e2d; border: none; padding: 15px; border-radius: 10px; cursor: not-allowed; opacity: 0.6; width: 100%; font-weight: bold; transition: background 0.3s, box-shadow 0.3s; }
+.btn-claim.active { background: linear-gradient(45deg, #00d2ff, #3a7bd5); color: white; cursor: pointer; opacity: 1; box-shadow: 0 4px 15px rgba(58, 123, 213, 0.4);}

@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="dashboard.css">
 </head>
+
 <body>
 
     <div class="top-bar">
@@ -83,29 +84,41 @@
 
 episode 2
 
- <div class="neural-card" id="neuralCoreCard">
-    <div class="card-header">
-        <h3>Neural Profit Core</h3>
-        <span id="miningStatus">Idle</span>
-    </div>
-
-    <div class="brain-container">
-        <div class="energy-sphere" id="energySphere">
-            <div class="electric-ring"></div>
-            <div class="electric-ring"></div>
-            <div class="core-dot"></div>
+  <div class="ep2-container">
+    <div class="ep2-card">
+        <h2>Neural Lockup (Episode 2)</h2>
+        <div class="balance-display">
+            <p>Total Balance: <span id="main-balance">PKR 0.00</span></p>
         </div>
-    </div>
 
-    <div class="mining-stats">
-        <p>Locked: PKR <span id="lockedDisp">0</span></p>
-        <div class="timer-display" id="neuralTimer">24:00:00</div>
-    </div>
+        <div id="lock-input-area">
+            <input type="number" id="amount-to-lock" placeholder="Enter amount (e.g. 300)" min="100">
+            <button id="lock-start-btn" class="btn-primary">Lock Balance Now</button>
+        </div>
 
-    <div class="mining-actions">
-        <input type="number" id="lockAmount" placeholder="Enter Amount (Min 300)">
-        
-        <button onclick="handleLockup()" class="lock-btn">Lock Assets</button>
-        <button onclick="handleClaim()" id="claimBtn" class="claim-btn" disabled>Claim Yield</button>
+        <div id="active-lock-area" style="display: none;">
+            <div class="visualizer">
+                <div class="fan-box">
+                    <div class="fan-blade blade-1"></div>
+                    <div class="fan-blade blade-2"></div>
+                    <div class="fan-blade blade-3"></div>
+                    <div class="fan-blade blade-4"></div>
+                </div>
+            </div>
+            
+            <div class="active-details">
+                <div class="status-badge">Lockup Active (36% Profit)</div>
+                <div class="detail-row">
+                    <span>Locked:</span> <span id="display-locked-amount">0</span> PKR
+                </div>
+                <div class="detail-row profit-highlight">
+                    <span>Live Profit:</span> PKR <span id="live-profit">0.00000</span>
+                </div>
+                <div class="detail-row">
+                    <span>Time Left:</span> <span id="timer-display">--:--:--</span>
+                </div>
+            </div>
+            <button id="claim-btn" class="btn-claim" disabled>Claim & Stop</button>
+        </div>
     </div>
 </div>
