@@ -1,7 +1,6 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+ import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, doc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
-// 1. Firebase Config (Aapki keys)
 const firebaseConfig = {
     apiKey: "AIzaSyBic-MxXkb4vG_gijQlZCn7Lh8BERP1M9g",
     authDomain: "moneylogic2026-fa88f.firebaseapp.com",
@@ -13,64 +12,70 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
-// 2. Auth Check
 const userPhone = localStorage.getItem("userPhone");
-if (!userPhone) {
-    window.location.href = "../login/login.html";
-}
 
-// 3. Real-time Dashboard Sync
+if (!userPhone) { window.location.href = "../login/login.html"; }
+
+// --- 1. Immediate Link Generation ---
+const setInitialLink = () => {
+    const tempID = userPhone.slice(-4); 
+    const linkBox = document.getElementById("referralLink");
+    linkBox.value = `${window.location.origin}/registration/signup.html?ref=${tempID}`;
+};
+setInitialLink();
+
+// --- 2. Real-time Global Sync ---
 onSnapshot(doc(db, "users", userPhone), (docSnap) => {
     if (docSnap.exists()) {
         const data = docSnap.data();
         
-        // --- Referral Link Generation (Using UID) ---
-        const myUID = data.uid || "1000"; // Unique ID (Phone number chupa rahega)
-        const baseUrl = window.location.origin;
-        // Link template
-        const myReferralLink = `${baseUrl}/registration/signup.html?ref=${myUID}`;
-        document.getElementById("referralLink").value = myReferralLink;
+        // Permanent UID Update
+        const myUID = data.uid || userPhone.slice(-4);
+        document.getElementById("referralLink").value = `${window.location.origin}/registration/signup.html?ref=${myUID}`;
 
-        // --- Progress Tracker (Only counting Paid Referrals) ---
+        // Progress Bar Sync
         const paidRefs = data.paidReferralCount || 0;
-        document.getElementById("refStatusText").innerText = `${paidRefs} / 4 Referrals Paid`;
+        document.getElementById("refStatusText").innerText = `${paidRefs} / 4 Referrals`;
         
-        let progressPercent = (paidRefs / 4) * 100;
-        if (progressPercent > 100) progressPercent = 100;
-        document.getElementById("refProgressBar").style.width = `${progressPercent}%`;
+        let progress = (paidRefs / 4) * 100;
+        document.getElementById("refProgressBar").style.width = `${Math.min(progress, 100)}%`;
 
-        // --- Unlock Logic ---
+        // Withdraw Status Connection
         const statusLabel = document.getElementById("withdrawStatusLabel");
-        if (data.withdrawUnlocked) {
-            statusLabel.innerHTML = '<i class="fa-solid fa-unlock"></i> Withdraw Unlocked';
+        if (paidRefs >= 4 || data.withdrawUnlocked) {
+            statusLabel.innerHTML = '<i class="fa-solid fa-unlock"></i> WITHDRAW UNLOCKED';
             statusLabel.className = "status-badge unlocked";
         } else {
-            const remaining = 4 - paidRefs;
-            statusLabel.innerHTML = `<i class="fa-solid fa-lock"></i> Need ${remaining} More Paid Users`;
+            statusLabel.innerHTML = `<i class="fa-solid fa-lock"></i> Need ${4 - paidRefs} more referrals`;
             statusLabel.className = "status-badge locked";
         }
     }
 });
 
-// 4. Social Sharing & Functions
+// --- 3. Functions ---
 window.copyRefLink = () => {
-    const copyText = document.getElementById("referralLink");
-    copyText.select();
-    navigator.clipboard.writeText(copyText.value);
-    
-    const btn = document.getElementById("copyBtn");
-    btn.innerHTML = '<i class="fa-solid fa-check"></i> Copied!';
-    setTimeout(() => { btn.innerHTML = '<i class="fa-regular fa-copy"></i> Copy'; }, 2000);
+    const link = document.getElementById("referralLink");
+    link.select();
+    navigator.clipboard.writeText(link.value);
+    document.getElementById("copyBtn").innerHTML = "Copied!";
+    setTimeout(() => { document.getElementById("copyBtn").innerHTML = '<i class="fa-regular fa-copy"></i> Copy'; }, 2000);
 };
 
 window.shareOnWhatsApp = () => {
     const link = document.getElementById("referralLink").value;
-    const msg = encodeURIComponent(`MoneyLogic join karein aur daily profit kamayein! Mera link: ${link}`);
-    window.open(`https://wa.me/?text=${msg}`, '_blank');
+    window.open(`https://wa.me/?text=${encodeURIComponent("Join MoneyLogic and Earn: " + link)}`, '_blank');
 };
 
 window.shareOnFacebook = () => {
     const link = document.getElementById("referralLink").value;
     window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`, '_blank');
+};
+
+window.downloadBackup = async () => {
+    const docSnap = await getDoc(doc(db, "users", userPhone));
+    const blob = new Blob([JSON.stringify(docSnap.data(), null, 2)], {type: "application/json"});
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `MoneyLogic_Backup_${userPhone}.json`;
+    a.click();
 };

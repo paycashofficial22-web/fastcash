@@ -1,212 +1,62 @@
- /* --- Base Styles --- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
+ :root {
+    --primary: #00b4d8;
+    --bg-dark: #0b132b;
+    --card-bg: #1c2541;
+    --text-light: #ffffff;
+    --success: #2ecc71;
+    --danger: #e74c3c;
 }
 
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+
 body {
-    background: linear-gradient(135deg, #0f0c29, #302b63, #24243e);
-    min-height: 100vh;
+    background: var(--bg-dark);
+    color: var(--text-light);
     display: flex;
     justify-content: center;
-    align-items: center;
-    color: white;
+    min-height: 100vh;
     padding: 20px;
 }
 
-.referral-wrapper {
-    width: 100%;
-    max-width: 450px;
-}
+.refer-wrapper { width: 100%; max-width: 450px; }
 
-/* --- Header --- */
-.ref-header {
-    display: flex;
-    align-items: center;
-    margin-bottom: 25px;
-}
+.refer-header { display: flex; align-items: center; margin-bottom: 25px; gap: 15px; }
+.back-btn { color: white; text-decoration: none; font-size: 20px; }
 
-.back-btn {
-    background: rgba(255, 255, 255, 0.1);
-    border: none;
-    color: white;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    cursor: pointer;
-    margin-right: 15px;
-    transition: 0.3s;
-}
-
-.back-btn:hover {
-    background: rgba(255, 255, 255, 0.2);
-}
-
-/* --- Main Card --- */
-.ref-card {
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 24px;
+.refer-card {
+    background: var(--card-bg);
     padding: 30px;
+    border-radius: 24px;
     text-align: center;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
 }
 
-.ref-icon-area {
-    font-size: 60px;
-    color: #4facfe;
-    margin-bottom: 20px;
-    filter: drop-shadow(0 0 10px #4facfe);
+.icon-box i { font-size: 50px; color: var(--primary); margin-bottom: 15px; }
+
+.progress-section { margin: 25px 0; }
+.progress-info { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; }
+
+.progress-bar-container { background: #3a506b; height: 12px; border-radius: 10px; overflow: hidden; }
+.progress-bar-fill { 
+    background: linear-gradient(90deg, var(--primary), #00f5d4);
+    height: 100%; width: 0%; transition: width 0.8s ease-in-out; 
 }
 
-h2 {
-    font-size: 22px;
-    margin-bottom: 10px;
-}
+.referral-link-area { text-align: left; margin-bottom: 20px; }
+.input-group { display: flex; background: #0b132b; border-radius: 12px; padding: 5px; margin-top: 8px; border: 1px solid #3a506b; }
+.input-group input { background: transparent; border: none; color: var(--primary); padding: 10px; width: 100%; outline: none; }
+#copyBtn { background: var(--primary); border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
 
-p {
-    font-size: 14px;
-    color: #ccc;
-    line-height: 1.5;
-    margin-bottom: 25px;
-}
+.social-share-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
+.share-btn { padding: 12px; border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
+.wa { background: #25d366; }
+.fb { background: #1877f2; }
+.share-btn:active { transform: scale(0.95); }
 
-/* --- Progress Bar --- */
-.progress-container {
-    margin-bottom: 30px;
-}
+.btn-backup { width: 100%; background: transparent; border: 1px dashed #3a506b; color: #a5a5a5; padding: 10px; border-radius: 10px; cursor: pointer; margin-bottom: 20px; }
 
-.progress-info {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    margin-bottom: 8px;
-}
+.status-badge { padding: 15px; border-radius: 12px; font-weight: bold; font-size: 16px; margin-top: 10px; }
+.locked { background: rgba(231, 76, 60, 0.15); color: var(--danger); border: 1px solid var(--danger); }
+.unlocked { background: rgba(46, 204, 113, 0.15); color: var(--success); border: 1px solid var(--success); }
 
-.progress-bar-bg {
-    width: 100%;
-    height: 10px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 10px;
-    overflow: hidden;
-}
-
-.progress-fill {
-    width: 0%; /* JS se update hoga */
-    height: 100%;
-    background: linear-gradient(90deg, #00f2fe, #4facfe);
-    box-shadow: 0 0 15px rgba(79, 172, 254, 0.6);
-    transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
-
-/* --- Link Box --- */
-.link-wrapper {
-    text-align: left;
-    margin-bottom: 25px;
-}
-
-.link-wrapper label {
-    font-size: 12px;
-    color: #aaa;
-    display: block;
-    margin-bottom: 8px;
-}
-
-.copy-box {
-    display: flex;
-    background: rgba(0, 0, 0, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    border-radius: 12px;
-    padding: 5px;
-}
-
-#referralLink {
-    background: transparent;
-    border: none;
-    color: #00f2fe;
-    padding: 10px;
-    width: 100%;
-    font-size: 13px;
-    outline: none;
-}
-
-#copyBtn {
-    background: #4facfe;
-    border: none;
-    color: white;
-    padding: 0 15px;
-    border-radius: 8px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: 0.3s;
-}
-
-#copyBtn:hover {
-    background: #00f2fe;
-}
-
-/* --- Share Buttons --- */
-.share-options {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 15px;
-    margin-bottom: 25px;
-}
-
-.share-btn {
-    border: none;
-    padding: 12px;
-    border-radius: 12px;
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: 0.3s;
-}
-
-.whatsapp { background: #25D366; }
-.facebook { background: #1877F2; }
-
-.share-btn:hover {
-    transform: translateY(-3px);
-    filter: brightness(1.1);
-}
-
-/* --- Requirements & Badge --- */
-.requirements-box {
-    background: rgba(255, 255, 255, 0.03);
-    padding: 15px;
-    border-radius: 15px;
-}
-
-.req-item {
-    font-size: 13px;
-    color: #4caf50;
-    margin-bottom: 10px;
-}
-
-.status-badge {
-    padding: 10px;
-    border-radius: 8px;
-    font-size: 12px;
-    font-weight: bold;
-    text-transform: uppercase;
-}
-
-.locked {
-    background: rgba(255, 76, 76, 0.15);
-    color: #ff4c4c;
-    border: 1px solid #ff4c4c;
-}
-
-.unlocked {
-    background: rgba(76, 175, 80, 0.15);
-    color: #4caf50;
-    border: 1px solid #4caf50;
-}
+.small-note { font-size: 11px; color: #6fffe9; margin-top: 15px; opacity: 0.8; }
