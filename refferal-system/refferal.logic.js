@@ -1,5 +1,5 @@
  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, onSnapshot, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, collection, query, where, onSnapshot, doc, updateDoc, increment, getDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBic-MxXkb4vG_gijQlZCn7Lh8BERP1M9g",
@@ -12,70 +12,83 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-const userPhone = localStorage.getItem("userPhone");
 
-if (!userPhone) { window.location.href = "../login/login.html"; }
+// 1. UNIQUE ID GENERATION (3040, 5826 style)
+let myID = localStorage.getItem("userPhone");
+if (!myID) {
+    myID = Math.floor(1000 + Math.random() * 9000).toString();
+    localStorage.setItem("userPhone", myID);
+}
 
-// --- 1. Immediate Link Generation ---
-const setInitialLink = () => {
-    const tempID = userPhone.slice(-4); 
-    const linkBox = document.getElementById("referralLink");
-    linkBox.value = `${window.location.origin}/registration/signup.html?ref=${tempID}`;
-};
-setInitialLink();
+// 2. LIVE DASHBOARD UPDATES
+const q = query(collection(db, "users"), where("uid", "==", myID.trim()));
+onSnapshot(q, (snapshot) => {
+    if (!snapshot.empty) {
+        const data = snapshot.docs[0].data();
+        const refs = data.paidReferralCount || 0;
+        const bonus = data.referralBalance || 0;
 
-// --- 2. Real-time Global Sync ---
-onSnapshot(doc(db, "users", userPhone), (docSnap) => {
-    if (docSnap.exists()) {
-        const data = docSnap.data();
+        document.getElementById("refCountText").innerText = `${refs} / 4`;
+        document.getElementById("bonusAmount").innerText = `PKR ${bonus}.00`;
         
-        // Permanent UID Update
-        const myUID = data.uid || userPhone.slice(-4);
-        document.getElementById("referralLink").value = `${window.location.origin}/registration/signup.html?ref=${myUID}`;
+        let width = (refs / 4) * 100;
+        document.getElementById("referralProgress").style.width = (width > 100 ? 100 : width) + "%";
 
-        // Progress Bar Sync
-        const paidRefs = data.paidReferralCount || 0;
-        document.getElementById("refStatusText").innerText = `${paidRefs} / 4 Referrals`;
-        
-        let progress = (paidRefs / 4) * 100;
-        document.getElementById("refProgressBar").style.width = `${Math.min(progress, 100)}%`;
-
-        // Withdraw Status Connection
-        const statusLabel = document.getElementById("withdrawStatusLabel");
-        if (paidRefs >= 4 || data.withdrawUnlocked) {
-            statusLabel.innerHTML = '<i class="fa-solid fa-unlock"></i> WITHDRAW UNLOCKED';
-            statusLabel.className = "status-badge unlocked";
-        } else {
-            statusLabel.innerHTML = `<i class="fa-solid fa-lock"></i> Need ${4 - paidRefs} more referrals`;
-            statusLabel.className = "status-badge locked";
+        if (refs >= 4) {
+            const btn = document.getElementById("withdrawLockedBtn");
+            btn.disabled = false;
+            btn.classList.replace("locked", "unlocked");
+            btn.innerHTML = '<i class="fa-solid fa-unlock"></i> 😎🎊Congratulation';
         }
     }
 });
 
-// --- 3. Functions ---
-window.copyRefLink = () => {
-    const link = document.getElementById("referralLink");
-    link.select();
-    navigator.clipboard.writeText(link.value);
-    document.getElementById("copyBtn").innerHTML = "Copied!";
-    setTimeout(() => { document.getElementById("copyBtn").innerHTML = '<i class="fa-regular fa-copy"></i> Copy'; }, 2000);
+// 3. SECURE BONUS LOGIC (Automated & One-time)
+// Ye function tab chalayen jab aap User B ka balance manually update karein
+window.approveUserAndGiveBonus = async (userB_DocID) => {
+    const userBRef = doc(db, "users", userB_DocID);
+    const userBSnap = await getDoc(userBRef);
+
+    if (userBSnap.exists()) {
+        const userB = userBSnap.data();
+
+        // Security Check: Status false hona chahiye aur Referrer ID honi chahiye
+        if (userB.isReferralPaid === false && userB.referredBy) {
+            const qA = query(collection(db, "users"), where("uid", "==", userB.referredBy));
+            const querySnapA = await getDocs(qA);
+
+            if (!querySnapA.empty) {
+                const userADoc = querySnapA.docs[0];
+                const userARef = doc(db, "users", userADoc.id);
+
+                // User A ko 40 PKR dein aur count +1 karein
+                await updateDoc(userARef, {
+                    referralBalance: increment(40),
+                    paidReferralCount: increment(1)
+                });
+
+                // User B ko true mark kar dein taake dobara bonus na mile
+                await updateDoc(userBRef, { isReferralPaid: true });
+                alert("User A received 40 PKR bonus! Securely updated.");
+            }
+        }
+    }
 };
 
-window.shareOnWhatsApp = () => {
-    const link = document.getElementById("referralLink").value;
-    window.open(`https://wa.me/?text=${encodeURIComponent("Join MoneyLogic and Earn: " + link)}`, '_blank');
+// 4. LINK & SOCIAL
+document.getElementById("referralLinkInput").value = `https://paycashofficial22-web.github.io/signup.html?ref=${myID}`;
+
+window.copyLink = () => {
+    const input = document.getElementById("referralLinkInput");
+    input.select();
+    navigator.clipboard.writeText(input.value);
+    alert("Link Copied!");
 };
 
-window.shareOnFacebook = () => {
-    const link = document.getElementById("referralLink").value;
-    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(link)}`, '_blank');
-};
-
-window.downloadBackup = async () => {
-    const docSnap = await getDoc(doc(db, "users", userPhone));
-    const blob = new Blob([JSON.stringify(docSnap.data(), null, 2)], {type: "application/json"});
-    const a = document.createElement("a");
-    a.href = URL.createObjectURL(blob);
-    a.download = `MoneyLogic_Backup_${userPhone}.json`;
-    a.click();
+window.share = (p) => {
+    const link = document.getElementById("referralLinkInput").value;
+    const msg = encodeURIComponent("Fast Cash join karein aur har refer pe 40rs kamayein! " + link);
+    if(p === 'wa') window.open(`https://wa.me/?text=${msg}`);
+    if(p === 'fb') window.open(`https://www.facebook.com/sharer/sharer.php?u=${link}`);
+    if(p === 'ig') alert("Bio mein link paste karein!");
 };

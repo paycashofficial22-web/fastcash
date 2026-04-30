@@ -1,62 +1,19 @@
- :root {
-    --primary: #00b4d8;
-    --bg-dark: #0b132b;
-    --card-bg: #1c2541;
-    --text-light: #ffffff;
-    --success: #2ecc71;
-    --danger: #e74c3c;
-}
-
-* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
-
-body {
-    background: var(--bg-dark);
-    color: var(--text-light);
-    display: flex;
-    justify-content: center;
-    min-height: 100vh;
-    padding: 20px;
-}
-
-.refer-wrapper { width: 100%; max-width: 450px; }
-
-.refer-header { display: flex; align-items: center; margin-bottom: 25px; gap: 15px; }
-.back-btn { color: white; text-decoration: none; font-size: 20px; }
-
-.refer-card {
-    background: var(--card-bg);
-    padding: 30px;
-    border-radius: 24px;
-    text-align: center;
-    box-shadow: 0 15px 35px rgba(0,0,0,0.3);
-}
-
-.icon-box i { font-size: 50px; color: var(--primary); margin-bottom: 15px; }
-
-.progress-section { margin: 25px 0; }
-.progress-info { display: flex; justify-content: space-between; font-size: 14px; margin-bottom: 8px; }
-
-.progress-bar-container { background: #3a506b; height: 12px; border-radius: 10px; overflow: hidden; }
-.progress-bar-fill { 
-    background: linear-gradient(90deg, var(--primary), #00f5d4);
-    height: 100%; width: 0%; transition: width 0.8s ease-in-out; 
-}
-
-.referral-link-area { text-align: left; margin-bottom: 20px; }
-.input-group { display: flex; background: #0b132b; border-radius: 12px; padding: 5px; margin-top: 8px; border: 1px solid #3a506b; }
-.input-group input { background: transparent; border: none; color: var(--primary); padding: 10px; width: 100%; outline: none; }
-#copyBtn { background: var(--primary); border: none; color: white; padding: 10px 20px; border-radius: 8px; cursor: pointer; }
-
-.social-share-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 15px; }
-.share-btn { padding: 12px; border: none; border-radius: 12px; color: white; font-weight: bold; cursor: pointer; transition: 0.3s; }
-.wa { background: #25d366; }
-.fb { background: #1877f2; }
-.share-btn:active { transform: scale(0.95); }
-
-.btn-backup { width: 100%; background: transparent; border: 1px dashed #3a506b; color: #a5a5a5; padding: 10px; border-radius: 10px; cursor: pointer; margin-bottom: 20px; }
-
-.status-badge { padding: 15px; border-radius: 12px; font-weight: bold; font-size: 16px; margin-top: 10px; }
-.locked { background: rgba(231, 76, 60, 0.15); color: var(--danger); border: 1px solid var(--danger); }
-.unlocked { background: rgba(46, 204, 113, 0.15); color: var(--success); border: 1px solid var(--success); }
-
-.small-note { font-size: 11px; color: #6fffe9; margin-top: 15px; opacity: 0.8; }
+ * { margin: 0; padding: 0; box-sizing: border-box; }
+body { background: #0b0b1a; color: white; font-family: 'Segoe UI', sans-serif; display: flex; justify-content: center; }
+.app-container { width: 100%; max-width: 420px; padding: 20px; }
+.header { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; }
+.card { background: #16162d; border-radius: 16px; padding: 20px; margin-bottom: 20px; border: 1px solid #2a2a4d; }
+.row { display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; }
+.bar-container { background: #2a2a4d; height: 12px; border-radius: 10px; overflow: hidden; }
+.bar-fill { background: linear-gradient(90deg, #0082ff, #00d2ff); width: 0%; height: 100%; transition: 0.6s ease-in-out; }
+.earnings { text-align: center; border-bottom: 4px solid #0082ff; }
+.earnings h1 { font-size: 38px; color: #00d2ff; margin-top: 10px; }
+.copy-box { display: flex; background: #050510; border: 1px solid #333; border-radius: 12px; margin-top: 10px; overflow: hidden; }
+.copy-box input { flex: 1; background: transparent; border: none; color: #888; padding: 14px; font-size: 13px; outline: none; }
+.copy-box button { background: #0082ff; border: none; color: white; padding: 0 20px; font-weight: bold; cursor: pointer; }
+.social-share { display: flex; justify-content: space-evenly; margin: 30px 0; }
+.s-btn { width: 55px; height: 55px; border-radius: 50%; border: none; color: white; font-size: 24px; cursor: pointer; }
+.wa { background: #25d366; } .fb { background: #1877f2; } .ig { background: #e4405f; }
+.btn-main { width: 100%; padding: 18px; border-radius: 12px; border: none; font-weight: bold; font-size: 16px; transition: 0.3s; }
+.locked { background: #222; color: #555; cursor: not-allowed; }
+.unlocked { background: linear-gradient(to right, #0082ff, #00d2ff); color: white; cursor: pointer; box-shadow: 0 4px 15px rgba(0, 130, 255, 0.4); }

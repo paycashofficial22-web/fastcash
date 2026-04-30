@@ -3,65 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invite Friends | MoneyLogic</title>
+    <title>Earn PKR 40 Per Friend | Fast Cash</title>
     <link rel="stylesheet" href="refferal.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-
-    <div class="refer-wrapper">
-        <div class="refer-header">
-            <a href="../dashboard/dashboard.html" class="back-btn"><i class="fa-solid fa-arrow-left"></i></a>
-            <h1>Invite Friends</h1>
+    <div class="app-container">
+        <div class="header">
+            <i class="fa-solid fa-chevron-left" onclick="window.history.back()"></i>
+            <h2>Referral Dashboard</h2>
         </div>
 
-        <div class="refer-card">
-            <div class="icon-box">
-                <i class="fa-solid fa-users-rays"></i>
+        <div class="card stats">
+            <div class="row">
+                <span>Paid Referrals</span>
+                <b id="refCountText">0 / 4</b>
             </div>
-            
-            <h2>Refer & Unlock Withdraw</h2>
-            <p>Apne 4 doston ko join karwayein aur apna withdrawal hamesha ke liye unlock karein.</p>
-
-            <div class="progress-section">
-                <div class="progress-info">
-                    <span>Progress</span>
-                    <span id="refStatusText">0 / 4 Referrals</span>
-                </div>
-                <div class="progress-bar-container">
-                    <div id="refProgressBar" class="progress-bar-fill"></div>
-                </div>
+            <div class="bar-container">
+                <div id="referralProgress" class="bar-fill"></div>
             </div>
-
-            <div class="referral-link-area">
-                <label>Apka Unique Referral Link</label>
-                <div class="input-group">
-                    <input type="text" id="referralLink" readonly value="Generating...">
-                    <button id="copyBtn" onclick="copyRefLink()">
-                        <i class="fa-regular fa-copy"></i> Copy
-                    </button>
-                </div>
-            </div>
-
-            <div class="social-share-grid">
-                <button onclick="shareOnWhatsApp()" class="share-btn wa">
-                    <i class="fa-brands fa-whatsapp"></i> WhatsApp
-                </button>
-                <button onclick="shareOnFacebook()" class="share-btn fb">
-                    <i class="fa-brands fa-facebook"></i> Facebook
-                </button>
-            </div>
-
-            <button onclick="downloadBackup()" class="btn-backup">
-                <i class="fa-solid fa-cloud-arrow-down"></i> Backup Account Data
-            </button>
-
-            <div id="withdrawStatusLabel" class="status-badge locked">
-                <i class="fa-solid fa-lock"></i> WITHDRAW LOCKED
-            </div>
-            
-            <p class="small-note"><i class="fa-solid fa-circle-check"></i> Register 4 active users to unlock.</p>
+            <p class="status-msg">Get 4 paid friends to unlock withdrawal.</p>
         </div>
+
+        <div class="card earnings">
+            <p>Your Referral Bonus</p>
+            <h1 id="bonusAmount">PKR 0.00</h1>
+        </div>
+
+        <div class="link-section">
+            <label>Your Unique Invite Link</label>
+            <div class="copy-box">
+                <input type="text" id="referralLinkInput" readonly value="Loading...">
+                <button onclick="copyLink()">Copy</button>
+            </div>
+        </div>
+
+        <div class="social-share">
+            <button class="s-btn wa" onclick="share('wa')"><i class="fa-brands fa-whatsapp"></i></button>
+            <button class="s-btn fb" onclick="share('fb')"><i class="fa-brands fa-facebook-f"></i></button>
+            <button class="s-btn ig" onclick="share('ig')"><i class="fa-brands fa-instagram"></i></button>
+        </div>
+
+        <button id="withdrawLockedBtn" class="btn-main locked" disabled>
+            <i class="fa-solid fa-lock"></i> Withdraw Locked
+        </button>
     </div>
 
     <script type="module" src="refferal.logic.js"></script>
