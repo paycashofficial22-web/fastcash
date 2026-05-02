@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, onSnapshot, updateDoc, increment, addDoc, collection } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, onSnapshot, updateDoc, increment, addDoc, collection, getDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -17,7 +17,7 @@ const auth = getAuth(app);
 
 let isUnlocked = false; 
 let userBalance = 0;
-let referralsCount = 0; // Smart checking ke liye variable
+let referralsCount = 0; 
 let currentUserID = null;
 
 // --- Step 1: Auth & Data Sync ---
@@ -27,15 +27,13 @@ onAuthStateChanged(auth, (user) => {
         onSnapshot(doc(db, "users", currentUserID), (docSnap) => {
             if (docSnap.exists()) {
                 const data = docSnap.data();
-                referralsCount = data.paidReferralCount || 0; // Live count update
+                referralsCount = data.paidReferralCount || 0; 
                 userBalance = data.globalBalance || 0;
 
-                // Progress Bar Update
                 const percentage = (referralsCount / 4) * 100;
                 const progressBar = document.getElementById("progressBar");
                 if(progressBar) progressBar.style.width = Math.min(percentage, 100) + "%";
                 
-                // UI Status Update
                 const statusH = document.getElementById("statusHeading");
                 const statusS = document.getElementById("statusSubtext");
                 const lockI = document.getElementById("lockIcon");
@@ -58,7 +56,6 @@ onAuthStateChanged(auth, (user) => {
                     }
                 }
 
-                // Balance display update (if IDs exist on page)
                 if(document.getElementById('total-bal')) document.getElementById('total-bal').innerText = userBalance;
                 if(document.getElementById('with-bal')) document.getElementById('with-bal').innerText = userBalance;
             }
@@ -75,21 +72,18 @@ window.processWithdraw = async () => {
     const methodInput = document.getElementById("method");
     const submitBtn = document.getElementById("submitBtn");
 
-    // Check elements exist
     if(!amtInput || !accNumInput) return;
 
     const amount = parseFloat(amtInput.value);
     const account = accNumInput.value;
     const method = methodInput ? methodInput.value : "EasyPaisa";
 
-    // 1. SMART REFERRAL CHECK
     if (!isUnlocked) {
         const remaining = 4 - referralsCount;
         alert(`⚠️ Withdraw Locked!\n\nAapko mazeed ${remaining} active referrals ki zaroorat hai.\n\nJaise hi aapke 4 referrals poore honge, aap paise nikal sakenge. Shukria! ✅`);
         return;
     }
 
-    // 2. Validation
     if (!account || account.length < 10) {
         alert("⚠️ Please apna sahi mobile number enter karein.");
         return;
@@ -100,7 +94,6 @@ window.processWithdraw = async () => {
         return;
     }
 
-    // 3. Balance Check
     if (amount > userBalance) {
         alert(`❌ Insufficient Balance!\nAapka balance Rs. ${userBalance} hai. Please kam amount likhein.`);
         return;
@@ -110,9 +103,14 @@ window.processWithdraw = async () => {
         submitBtn.disabled = true;
         submitBtn.innerText = "Processing...";
 
-        // 4. Request send karein
+        // --- Fetch User Name specifically for Admin Panel ---
+        const userDoc = await getDoc(doc(db, "users", currentUserID));
+        const fullName = userDoc.exists() ? userDoc.data().fullName : "Unknown";
+
+        // 4. Request send karein (Ab User Name bhi jayega)
         await addDoc(collection(db, "withdrawRequests"), {
             uid: currentUserID,
+            userName: fullName, // UID ki jagah Naam save hoga
             accountNumber: account,
             method: method,
             amount: amount,
