@@ -17,111 +17,121 @@ const auth = getAuth(app);
 
 let isUnlocked = false; 
 let userBalance = 0;
+let referralsCount = 0; // Smart checking ke liye variable
 let currentUserID = null;
 
-// --- Step 1: Auth & Data Sync (No LocalStorage) ---
+// --- Step 1: Auth & Data Sync ---
 onAuthStateChanged(auth, (user) => {
     if (user) {
-        currentUserID = user.uid; // Direct Firebase ID use hogi
-        
-        // Real-time listener taake database change hote hi UI update ho
+        currentUserID = user.uid;
         onSnapshot(doc(db, "users", currentUserID), (docSnap) => {
             if (docSnap.exists()) {
                 const data = docSnap.data();
-                const referrals = data.paidReferralCount || 0;
+                referralsCount = data.paidReferralCount || 0; // Live count update
                 userBalance = data.globalBalance || 0;
 
-                // UI Update logic
-                const percentage = (referrals / 4) * 100;
+                // Progress Bar Update
+                const percentage = (referralsCount / 4) * 100;
                 const progressBar = document.getElementById("progressBar");
                 if(progressBar) progressBar.style.width = Math.min(percentage, 100) + "%";
                 
-                if (referrals >= 4) {
+                // UI Status Update
+                const statusH = document.getElementById("statusHeading");
+                const statusS = document.getElementById("statusSubtext");
+                const lockI = document.getElementById("lockIcon");
+
+                if (referralsCount >= 4) {
                     isUnlocked = true;
-                    document.getElementById("statusHeading").innerText = "Network Verified";
-                    document.getElementById("statusSubtext").innerText = "Your account is eligible for withdrawal.";
-                    document.getElementById("lockIcon").style.color = "#10b981";
+                    if(statusH) statusH.innerText = "Network Verified ✅";
+                    if(statusS) statusS.innerText = "Your account is eligible for withdrawal.";
+                    if(lockI) {
+                        lockI.className = "fas fa-check-circle";
+                        lockI.style.color = "#10b981";
+                    }
                 } else {
                     isUnlocked = false;
-                    document.getElementById("statusHeading").innerText = `Progress: ${referrals}/4 Referrals`;
-                    document.getElementById("statusSubtext").innerText = `Complete ${4 - referrals} more referrals to unlock.`;
-                    document.getElementById("lockIcon").style.color = "#ef4444";
+                    if(statusH) statusH.innerText = `Progress: ${referralsCount}/4 Referrals`;
+                    if(statusS) statusS.innerText = `Complete ${4 - referralsCount} more referrals to unlock.`;
+                    if(lockI) {
+                        lockI.className = "fas fa-lock";
+                        lockI.style.color = "#ef4444";
+                    }
                 }
-                
-                // Balance display update
+
+                // Balance display update (if IDs exist on page)
                 if(document.getElementById('total-bal')) document.getElementById('total-bal').innerText = userBalance;
                 if(document.getElementById('with-bal')) document.getElementById('with-bal').innerText = userBalance;
             }
         });
     } else {
-        window.location.href = "../login.html"; // Agar login nahi to bahr nikaal do
+        window.location.href = "../login.html";
     }
 });
 
 // --- Step 2: Withdraw Logic ---
 window.processWithdraw = async () => {
-    const amtInput = document.getElementById("withdraw-amount").value;
-    const accName = document.getElementById('acc-name').value;
-    const accNum = document.getElementById('acc-num').value;
-    const mtd = document.getElementById("method") ? document.getElementById("method").value : "EasyPaisa";
-    const amt = parseFloat(amtInput);
+    const amtInput = document.getElementById("amount");
+    const accNumInput = document.getElementById("accountNumber");
+    const methodInput = document.getElementById("method");
+    const submitBtn = document.getElementById("submitBtn");
 
-    // 1. Referral Gate Check
+    // Check elements exist
+    if(!amtInput || !accNumInput) return;
+
+    const amount = parseFloat(amtInput.value);
+    const account = accNumInput.value;
+    const method = methodInput ? methodInput.value : "EasyPaisa";
+
+    // 1. SMART REFERRAL CHECK
     if (!isUnlocked) {
-        alert("❌ Withdraw Nakamyab! Pehle 4 referrals mukammal karein, tab hi aap withdraw kar sakte hain.");
+        const remaining = 4 - referralsCount;
+        alert(`⚠️ Withdraw Locked!\n\nAapko mazeed ${remaining} active referrals ki zaroorat hai.\n\nJaise hi aapke 4 referrals poore honge, aap paise nikal sakenge. Shukria! ✅`);
         return;
     }
 
-    // 2. Security & Validation
-    if (!accNum || accNum.length < 10 || accName.trim() === "") {
-        alert("⚠️ Please account ki sahi details enter karein.");
+    // 2. Validation
+    if (!account || account.length < 10) {
+        alert("⚠️ Please apna sahi mobile number enter karein.");
         return;
     }
 
-    if (!amtInput || isNaN(amt) || amt < 500) {
-        alert("⚠️ Kam az kam withdraw amount Rs. 500 honi chahiye.");
+    if (isNaN(amount) || amount < 500) {
+        alert("⚠️ Kam az kam withdraw Rs. 500 hona chahiye.");
         return;
     }
 
-    // 3. Live Balance Check
-    if (amt > userBalance) {
-        alert(`❌ Aapke paas kafi balance nahi hai! Aapka moajuda balance Rs. ${userBalance} hai.`);
+    // 3. Balance Check
+    if (amount > userBalance) {
+        alert(`❌ Insufficient Balance!\nAapka balance Rs. ${userBalance} hai. Please kam amount likhein.`);
         return;
     }
 
     try {
-        const btn = document.getElementById("submitBtn");
-        if(btn) {
-            btn.disabled = true;
-            btn.innerText = "Processing...";
-        }
+        submitBtn.disabled = true;
+        submitBtn.innerText = "Processing...";
 
-        // 4. Request Create karna
+        // 4. Request send karein
         await addDoc(collection(db, "withdrawRequests"), {
             uid: currentUserID,
-            accountName: accName,
-            accountNumber: accNum,
-            method: mtd,
-            amount: amt,
+            accountNumber: account,
+            method: method,
+            amount: amount,
             status: "pending",
             timestamp: new Date()
         });
 
-        // 5. Database Balance Update
+        // 5. Balance Minus karein
         await updateDoc(doc(db, "users", currentUserID), {
-            globalBalance: increment(-amt)
+            globalBalance: increment(-amount)
         });
 
         alert("✅ Aapki request bhj di gi ha, please intezar kry shukria.");
         window.location.href = "../dashboard/dashboard.html";
 
     } catch (e) {
-        console.error("Withdraw Error:", e);
-        alert("❌ System busy hai. Dobara koshish karein.");
-        const btn = document.getElementById("submitBtn");
-        if(btn) {
-            btn.disabled = false;
-            btn.innerText = "Confirm Cashout";
-        }
+        console.error(e);
+        alert("❌ Error! System busy hai, dobara koshish karein.");
+        submitBtn.disabled = false;
+        submitBtn.innerText = "Confirm Cashout";
     }
 };
