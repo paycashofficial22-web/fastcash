@@ -3,124 +3,79 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Fast Cash Admin - Final Panel</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>PayCash Official Admin Console</title>
     <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-
-    <div class="mobile-nav">
-        <span><b>FAST CASH ADMIN</b></span>
-        <button onclick="toggleSidebar()" class="menu-btn">☰</button>
-    </div>
-
-    <div class="sidebar" id="sidebar">
-        <div class="sidebar-logo">ADMIN CONTROL</div>
-        <nav>
-            <div class="nav-item" onclick="showSection('user-section')"><i class="fas fa-users"></i> User Manager</div>
-            <div class="nav-item" onclick="showSection('deposit-section')"><i class="fas fa-wallet"></i> Deposits</div>
-            <div class="nav-item" onclick="showSection('withdraw-section')"><i class="fas fa-money-bill-wave"></i> Withdrawals</div>
-            <div class="nav-item" onclick="showSection('announcement-section')"><i class="fas fa-bullhorn"></i> Broadcast</div>
+    <div class="app-container">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <img src="https://via.placeholder.com/40" alt="Logo">
+                <span>PayCash Admin</span>
+            </div>
+            <ul class="nav-links">
+                <li onclick="loadView('dashboard')" class="active"><i class="fas fa-home"></i> Dashboard</li>
+                <li onclick="loadView('users')"><i class="fas fa-users"></i> User Management</li>
+                <li onclick="loadView('deposits')"><i class="fas fa-arrow-down"></i> Deposit Requests</li>
+                <li onclick="loadView('withdrawals')"><i class="fas fa-arrow-up"></i> Withdraw Requests</li>
+                <li onclick="loadView('settings')"><i class="fas fa-cog"></i> System Settings</li>
+            </ul>
         </nav>
-    </div>
 
-    <div class="main-content">
-        <div class="stats-grid">
-            <div class="card blue" onclick="showSection('user-section')">
-                <i class="fas fa-coins"></i>
-                <h3>Total Funds</h3>
-                <p id="stat-total-funds">Rs. 0</p>
+        <main class="content-body">
+            <div class="stats-grid">
+                <div class="stat-card blue" onclick="loadView('users')">
+                    <div class="icon-box"><i class="fas fa-user-friends"></i></div>
+                    <div class="info"><h3>Total Users</h3><h2 id="countUsers">0</h2></div>
+                </div>
+                <div class="stat-card green" onclick="loadView('deposits')">
+                    <div class="icon-box"><i class="fas fa-hand-holding-usd"></i></div>
+                    <div class="info"><h3>Deposit Req</h3><h2 id="countDeposits">0</h2></div>
+                </div>
+                <div class="stat-card orange" onclick="loadView('withdrawals')">
+                    <div class="icon-box"><i class="fas fa-money-check-alt"></i></div>
+                    <div class="info"><h3>Withdraw Req</h3><h2 id="countWithdraws">0</h2></div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="icon-box"><i class="fas fa-wallet"></i></div>
+                    <div class="info"><h3>Total Funds</h3><h2 id="statFunds">Rs. 0</h2></div>
+                </div>
+                <div class="stat-card red">
+                    <div class="icon-box"><i class="fas fa-gift"></i></div>
+                    <div class="info"><h3>Ref Bonuses</h3><h2 id="statBonuses">Rs. 0</h2></div>
+                </div>
+                <div class="stat-card cyan">
+                    <div class="icon-box"><i class="fas fa-comment-dots"></i></div>
+                    <div class="info"><h3>Messages</h3><h2 id="countMsgs">0</h2></div>
+                </div>
             </div>
-            <div class="card purple" onclick="showSection('user-section')">
-                <i class="fas fa-users"></i>
-                <h3>Total Users</h3>
-                <p id="stat-total-users">0</p>
-            </div>
-            <div class="card green" onclick="showSection('deposit-section')">
-                <i class="fas fa-download"></i>
-                <h3>Deposit Req</h3>
-                <p id="stat-deposit-req">0</p>
-            </div>
-            <div class="card orange" onclick="showSection('withdraw-section')">
-                <i class="fas fa-upload"></i>
-                <h3>Withdraw Req</h3>
-                <p id="stat-withdraw-req">0</p>
-            </div>
-            <div class="card dark" onclick="showSection('user-section')">
-                <i class="fas fa-history"></i>
-                <h3>Total TX</h3>
-                <p id="stat-total-tx">0</p>
-            </div>
-            <div class="card teal" onclick="showSection('user-section')">
-                <i class="fas fa-user-check"></i>
-                <h3>Paid Users</h3>
-                <p id="stat-paid-users">0</p>
-            </div>
-        </div>
 
-        <div id="user-section" class="admin-section active">
-            <div class="section-header bg-blue"><h3>User List & Team Info</h3></div>
-            <div class="table-wrapper">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Password</th>
-                            <th>Balance</th>
-                            <th>Team</th>
-                            <th>Status</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody id="user-list"></tbody>
-                </table>
+            <div class="data-section">
+                <div class="table-header">
+                    <h2 id="viewTitle">Live User Management</h2>
+                    <div class="search-bar">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="adminSearch" placeholder="Search by Name, TRX ID, or Phone..." onkeyup="filterData()">
+                    </div>
+                </div>
+                <div class="responsive-table">
+                    <table>
+                        <thead id="tHead"></thead>
+                        <tbody id="tBody"></tbody>
+                    </table>
+                </div>
             </div>
-        </div>
-
-        <div id="deposit-section" class="admin-section">
-            <div class="section-header bg-green"><h3>Pending Deposits</h3></div>
-            <div class="table-wrapper">
-                <table id="deposit-list-table">
-                    <thead><tr><th>User</th><th>Amount</th><th>Trx ID</th><th>Action</th></tr></thead>
-                    <tbody id="deposit-list"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <div id="withdraw-section" class="admin-section">
-            <div class="section-header bg-dark"><h3>Pending Withdrawals</h3></div>
-            <div class="table-wrapper">
-                <table id="withdraw-list-table">
-                    <thead><tr><th>User</th><th>Amount</th><th>Method</th><th>Action</th></tr></thead>
-                    <tbody id="withdraw-list"></tbody>
-                </table>
-            </div>
-        </div>
-
-        <div id="announcement-section" class="admin-section">
-            <div class="section-header bg-purple"><h3>Global Message</h3></div>
-            <div style="padding:20px;">
-                <textarea id="global-msg" placeholder="Write message for everyone..." style="width:100%; height:100px; padding:10px;"></textarea>
-                <button onclick="sendGlobal()" class="btn-success" style="width:100%; margin-top:10px; padding:15px;">Send Broadcast</button>
-            </div>
-        </div>
+        </main>
     </div>
 
     <div id="editModal" class="modal">
         <div class="modal-content">
-            <div class="modal-header">Manage User: <span id="display-name"></span></div>
-            <div class="modal-body">
-                <label>Full Name</label><input type="text" id="edit-name">
-                <label>Phone Number</label><input type="text" id="edit-phone">
-                <label>Password</label><input type="text" id="edit-pass">
-                <label>Balance (PKR)</label><input type="number" id="edit-balance">
-                <label>Team Count</label><input type="number" id="edit-ref">
-                <div class="modal-footer">
-                    <button onclick="updateUser()" class="btn-success">Update Data</button>
-                    <button onclick="deleteUserAccount()" class="btn-danger">Delete Account</button>
-                    <button onclick="closeModal()" class="btn-cancel">Close</button>
-                </div>
+            <h3>Update User Balance</h3>
+            <input type="number" id="newBalanceField" placeholder="Enter New Balance">
+            <div class="modal-btns">
+                <button class="btn-cancel" onclick="closeModal()">Cancel</button>
+                <button class="btn-save" id="saveBalanceBtn">Update Now</button>
             </div>
         </div>
     </div>
