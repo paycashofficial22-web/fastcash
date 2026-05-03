@@ -77,12 +77,30 @@ window.sendToFirebase = async () => {
             timestamp: serverTimestamp()
         });
 
-        alert("Apki request bhj di gi ha please intezar kijyaga. Admin verify kar raha hai.");
-        window.parent.closeDeposit(); // Close modal
+ // Firebase me data save hone ke baad ye alert aayega
+        alert("Apki request bhj di gi ha please intezar kijyaga. Admin verify kar raha ha");
+
+        // --- Window Close & Redirect Logic ---
+        try {
+            // Check karega agar dashboard ka function maujood hai
+            if (window.parent && window.parent !== window && typeof window.parent.closeDeposit === "function") {
+                window.parent.closeDeposit();
+            } else {
+                // Agar function nahi hai to direct dashboard par bhej dega
+                window.location.replace("../dashboard/dashboard.html");
+            }
+        } catch (e) {
+            // Kisi bhi error ki surat mein page redirect kar dega
+            window.location.replace("../dashboard/dashboard.html");
+        }
+
     } catch (error) {
-        alert("Firebase Error: " + error.message);
+        // Ye main catch block hai jo firebase errors handle karta hai
+        console.error("Firebase Error:", error);
+        alert("Error: " + error.message);
     }
 };
+
 
 window.copyText = () => {
     const num = document.getElementById('accNumber').innerText;
