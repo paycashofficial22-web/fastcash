@@ -66,3 +66,6 @@ tr:hover { background-color: #fcfdfe; }
 .modal-content { background: white; padding: 35px; border-radius: 20px; width: 400px; text-align: center; }
 .modal-content input { width: 100%; padding: 15px; margin: 20px 0; border: 1px solid #ddd; border-radius: 10px; }
 .modal-btns { display: flex; gap: 10px; justify-content: center; }
+
+
+

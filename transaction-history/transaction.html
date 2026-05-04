@@ -1,0 +1,51 @@
+ <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaction History | PayCash</title>
+    <link rel="stylesheet" href="transaction.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="history-container">
+        <header class="header">
+            <div class="header-info">
+                <div class="icon-circle"><i class="fas fa-history"></i></div>
+                <div>
+                    <h1>Transaction History</h1>
+                    <p>View all your recent transactions</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="tab-controls">
+            <button class="tab-btn active" id="btnDeposit">Deposit History</button>
+            <button class="tab-btn" id="btnWithdraw">Withdraw History</button>
+        </div>
+
+        <div class="history-card slide-in">
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>User Details</th>
+                            <th>Amount</th>
+                            <th>Trx ID / Method</th>
+                            <th>Time</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="historyBody">
+                        </tbody>
+                </table>
+            </div>
+            <div class="table-footer">
+                <p id="showingCount">Showing 0 transactions</p>
+            </div>
+        </div>
+    </div>
+
+    <script type="module" src="transaction.logic.js"></script>
+</body>
+</html>

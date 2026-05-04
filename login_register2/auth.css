@@ -1,4 +1,4 @@
- :root {
+:root {
     --gold: #ffcc00;
     --dark-bg: #0b0e14;
     --card-bg: #161b22;
@@ -6,28 +6,49 @@
 }
 
 body {
-    margin: 0; padding: 0; font-family: 'Poppins', sans-serif;
+    margin: 0; 
+    padding: 0; 
+    font-family: 'Poppins', sans-serif;
     background: radial-gradient(circle, #1a1f2c, var(--dark-bg));
-    height: 100vh; display: flex; justify-content: center; align-items: center;
+    /* Mobile Fix: Height ko auto kiya taake scroll ho sake agar screen choti ho */
+    min-height: 100vh; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center;
+    /* Horizontal scroll khatam karne ke liye */
+    overflow-x: hidden;
 }
 
 .auth-card {
-    background: var(--card-bg); width: 100%; max-width: 380px;
-    padding: 40px; border-radius: 24px; text-align: center;
-    box-shadow: 0 20px 40px rgba(0,0,0,0.6); border: 1px solid rgba(255,204,0,0.1);
+    background: var(--card-bg); 
+    /* Mobile Fix: Width 90% di hai taake sides se touch na ho */
+    width: 90%; 
+    max-width: 380px;
+    padding: 30px 20px; /* Padding thodi kam ki mobile ke liye */
+    border-radius: 24px; 
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.6); 
+    border: 1px solid rgba(255,204,0,0.1);
+    box-sizing: border-box; /* Padding ko width ke andar rakhne ke liye */
 }
 
 .logo-icon { font-size: 50px; color: var(--gold); margin-bottom: 15px; }
 
-.input-group { position: relative; margin-bottom: 18px; }
+.input-group { position: relative; margin-bottom: 18px; width: 100%; }
 .input-group i { position: absolute; left: 15px; top: 50%; transform: translateY(-50%); color: var(--gold); }
 
 input {
-    width: 100%; padding: 14px 15px 14px 45px; background: var(--input-bg);
-    border: 1px solid #30363d; border-radius: 12px; color: white; box-sizing: border-box;
+    width: 100%; 
+    padding: 14px 15px 14px 45px; 
+    background: var(--input-bg);
+    border: 1px solid #30363d; 
+    border-radius: 12px; 
+    color: white; 
+    box-sizing: border-box;
+    /* Mobile Fix: Input par click karne se zoom na ho */
+    font-size: 16px; 
 }
 
-/* Referral Tag Style */
 .ref-badge {
     background: rgba(255, 204, 0, 0.1);
     color: var(--gold);
@@ -36,10 +57,33 @@ input {
     font-size: 13px;
     margin-bottom: 20px;
     border: 1px dashed var(--gold);
-    display: none; /* Automatic show hoga jab link me ID hogi */
+    display: none;
+    word-break: break-all; /* Agar link lamba ho to screen se bahar na jaye */
 }
 
 .auth-btn {
-    width: 100%; padding: 15px; background: linear-gradient(90deg, #ffcc00, #ff9900);
-    border: none; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s;
+    width: 100%; 
+    padding: 15px; 
+    background: linear-gradient(90deg, #ffcc00, #ff9900);
+    border: none; 
+    border-radius: 12px; 
+    font-weight: 700; 
+    cursor: pointer; 
+    transition: 0.3s;
+    color: #000; /* Text black taake gold par wazay nazar aaye */
+}
+
+/* --- Mobile Specific Fixes --- */
+@media only screen and (max-width: 480px) {
+    .auth-card {
+        padding: 25px 15px;
+        margin: 20px 0; /* Mobile par thoda gap dene ke liye */
+    }
+    
+    .logo-icon { font-size: 40px; }
+    
+    .auth-btn {
+        padding: 12px;
+        font-size: 15px;
+    }
 }

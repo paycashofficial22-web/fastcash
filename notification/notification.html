@@ -6,6 +6,13 @@
     <title>Notifications | Money Logic</title>
     <link rel="stylesheet" href="notification.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Choti si extra styling taake pichle messages achay lagain */
+        .msg-list { display: flex; flex-direction: column; gap: 15px; }
+        .msg-card { position: relative; overflow: hidden; }
+        .time-stamp { font-size: 0.75rem; opacity: 0.7; display: block; margin-top: 8px; }
+        .no-msg { text-align: center; color: gray; padding: 20px; }
+    </style>
 </head>
 <body>
     <div class="header">
@@ -14,16 +21,14 @@
     </div>
 
     <div class="container">
-        <div class="section-title">SYSTEM UPDATE</div>
-        <div class="msg-card system-card">
-            <i class="fas fa-bullhorn icon-bg"></i>
-            <p id="announcementText">Checking for latest announcements...</p>
-            <span id="msgTime" class="time-stamp"></span>
+        <div class="section-title"><i class="fas fa-globe"></i> GLOBAL UPDATES (Last 7 Days)</div>
+        <div id="globalList" class="msg-list">
+            <p class="no-msg">Checking for updates...</p>
         </div>
 
-        <div class="section-title">PERSONAL MESSAGES</div>
-        <div id="personalMsgArea">
-            <p class="no-msg">No new private messages for you.</p>
+        <div class="section-title" style="margin-top: 30px;"><i class="fas fa-user-shield"></i> PERSONAL MESSAGES</div>
+        <div id="personalList" class="msg-list">
+            <p class="no-msg">No private messages found.</p>
         </div>
     </div>
 
