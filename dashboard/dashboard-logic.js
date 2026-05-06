@@ -2,7 +2,7 @@
    FIREBASE FULL LOGIC ENGINE
    ============================================================ */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, doc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+import { getFirestore, doc, onSnapshot, updateDoc, collection, query, where } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -98,3 +98,26 @@ window.closeDeposit = () => {
 
 
 /* EPISODE 2 logic */
+
+
+/* --- REAL-TIME NOTIFICATION COUNTER START --- */
+ 
+ 
+
+// Sirf wo messages check karein jo "unread" hain
+const q = query(collection(db, "notifications"), where("status", "==", "unread"));
+
+onSnapshot(q, (snapshot) => {
+    const badge = document.getElementById("notif-count");
+    const count = snapshot.size;
+
+    if (count > 0) {
+        // Agar message hai to count dikhao aur badge show karo
+        badge.innerText = count;
+        badge.style.display = "flex"; 
+    } else {
+        // Agar koi unread message nahi hai to badge chhupa do
+        badge.style.display = "none";
+    }
+});
+/* --- REAL-TIME NOTIFICATION COUNTER END --- */

@@ -1,20 +1,122 @@
- body { font-family: 'Segoe UI', sans-serif; background: #f4f7fe; margin: 0; padding: 0; }
-.header { background: #3b82f6; color: white; padding: 15px; display: flex; align-items: center; gap: 15px; }
-.header button { background: none; border: none; color: white; font-size: 20px; cursor: pointer; }
-
-.container { padding: 20px; }
-.section-title { font-size: 12px; font-weight: bold; color: #64748b; margin-bottom: 10px; letter-spacing: 1px; }
-
-.msg-card { 
-    background: white; padding: 20px; border-radius: 15px; 
-    box-shadow: 0 4px 6px rgba(0,0,0,0.05); margin-bottom: 20px;
-    position: relative; overflow: hidden;
+ /* --- PROFESSIONAL NOTIFICATION THEME --- */
+:root {
+    --bg-dark: #0b0b1a;
+    --card-bg: #16162d;
+    --primary-blue: #00d4ff;
+    --text-glow: #007bff;
 }
 
-.system-card { border-left: 5px solid #3b82f6; background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%); }
-.icon-bg { position: absolute; right: -10px; bottom: -10px; font-size: 80px; color: rgba(59, 130, 246, 0.05); }
+body {
+    background-color: var(--bg-dark);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    margin: 0;
+    padding-bottom: 20px;
+}
 
-#announcementText { font-size: 16px; color: #1e293b; line-height: 1.5; margin: 0; font-weight: 500; }
-.time-stamp { font-size: 11px; color: #94a3b8; display: block; margin-top: 10px; }
+.header {
+    background: var(--card-bg);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    border-bottom: 1px solid #252545;
+}
 
-.no-msg { text-align: center; color: #94a3b8; margin-top: 20px; }
+.header-left { display: flex; align-items: center; gap: 15px; }
+
+.back-btn {
+    background: #1f1f3a;
+    border: none;
+    color: white;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.mark-read-btn {
+    background: transparent;
+    border: 1px solid var(--primary-blue);
+    color: var(--primary-blue);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    transition: 0.3s;
+}
+
+.mark-read-btn:active { background: var(--primary-blue); color: white; }
+
+.container { padding: 15px; max-width: 500px; margin: 0 auto; }
+
+/* Message Card */
+.msg-card {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 15px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    position: relative;
+    border: 1px solid #252545;
+    transition: transform 0.2s;
+}
+
+/* User Initial Circle */
+.user-initial {
+    width: 45px;
+    height: 45px;
+    background: linear-gradient(135deg, #00d4ff, #007bff);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    font-size: 18px;
+    box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+}
+
+.msg-content { flex: 1; }
+
+/* Text Color Movement Animation */
+.msg-text {
+    font-size: 14px;
+    font-weight: 500;
+    background: linear-gradient(90deg, #fff, #00d4ff, #fff);
+    background-size: 200% auto;
+    color: #fff;
+    background-clip: text;
+    -webkit-background-clip: text;
+    animation: textShine 3s linear infinite;
+}
+
+@keyframes textShine {
+    to { background-position: 200% center; }
+}
+
+.time-stamp {
+    font-size: 10px;
+    color: #777;
+    margin-top: 5px;
+    display: block;
+}
+
+/* Blue Dot Animation 🔵 */
+.blue-dot {
+    width: 10px;
+    height: 10px;
+    background: #007bff;
+    border-radius: 50%;
+    box-shadow: 0 0 10px #007bff;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.5); opacity: 0.5; }
+    100% { transform: scale(1); opacity: 1; }
+}

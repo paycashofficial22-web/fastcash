@@ -23,8 +23,6 @@
             </ul>
         </nav>
 
-        
-
         <main class="content-body">
             <div class="stats-grid">
                 <div class="stat-card blue" onclick="loadView('users')">
@@ -53,6 +51,16 @@
                 </div>
             </div>
 
+            <div class="data-section" style="margin-bottom: 20px;">
+                <div class="table-header">
+                    <h2><i class="fas fa-broadcast-tower"></i> Global Message Sender (Send to All)</h2>
+                </div>
+                <div style="padding: 15px;">
+                    <textarea id="globalMsgText" placeholder="Apna global message yahan likhen jo sab ko jayega..." style="width: 100%; height: 80px; padding: 10px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 10px; font-family: inherit;"></textarea>
+                    <button class="btn-save" id="sendGlobalBtn" style="width: auto; padding: 10px 25px;">Send to All Users</button>
+                </div>
+            </div>
+
             <div class="data-section">
                 <div class="table-header">
                     <h2 id="viewTitle">Live User Management</h2>
@@ -68,22 +76,34 @@
                     </table>
                 </div>
             </div>
-
-
-
-
-
-            
         </main>
     </div>
 
     <div id="editModal" class="modal">
         <div class="modal-content">
-            <h3>Update User Balance</h3>
-            <input type="number" id="newBalanceField" placeholder="Enter New Balance">
+            <h3 id="modalUserTitle">Update User</h3>
+            
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">User Balance (Rs.):</label>
+            <input type="number" id="newBalanceField" placeholder="Enter New Balance" style="margin-bottom: 15px;">
+            
+            <label style="display: block; margin-bottom: 5px; font-weight: bold;">Private Message (Optional):</label>
+            <textarea id="privateMsgField" placeholder="Sirf isi user ko password ya message bhejen..." style="width: 100%; height: 60px; padding: 10px; border-radius: 8px; border: 1px solid #ddd; margin-bottom: 15px; font-family: inherit;"></textarea>
+            
             <div class="modal-btns">
                 <button class="btn-cancel" onclick="closeModal()">Cancel</button>
                 <button class="btn-save" id="saveBalanceBtn">Update Now</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="deleteModal" class="modal">
+        <div class="modal-content" style="text-align: center;">
+            <i class="fas fa-exclamation-triangle" style="font-size: 3rem; color: #ff4444; margin-bottom: 15px;"></i>
+            <h3>Delete User?</h3>
+            <p>Kya aap waqai is user ko hamesha ke liye delete karna chahte hain? Ye action wapas nahi ho sakta.</p>
+            <div class="modal-btns" style="margin-top: 20px;">
+                <button class="btn-cancel" onclick="closeDeleteModal()">Nahi, Rehne den</button>
+                <button class="btn-save" id="confirmDeleteBtn" style="background: #ff4444;">Haan, Delete kar den</button>
             </div>
         </div>
     </div>

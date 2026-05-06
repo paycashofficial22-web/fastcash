@@ -110,3 +110,46 @@ input#amount-to-lock:focus { border-color: #4e54c8; outline: none; }
 /* Claim Button Styling */
 .btn-claim { background: linear-gradient(45deg, #a5accc, #7c839c); color: #1a1e2d; border: none; padding: 15px; border-radius: 10px; cursor: not-allowed; opacity: 0.6; width: 100%; font-weight: bold; transition: background 0.3s, box-shadow 0.3s; }
 .btn-claim.active { background: linear-gradient(45deg, #00d2ff, #3a7bd5); color: white; cursor: pointer; opacity: 1; box-shadow: 0 4px 15px rgba(58, 123, 213, 0.4);}
+
+
+
+/* --- UPDATED NOTIFICATION SYSTEM START --- */
+
+/* 1. Bell Icon aur Badge ka Container */
+.notification-bell {
+    position: relative;
+    display: inline-flex; /* Icon aur badge ko jore rakhne ke liye */
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    width: 35px; /* Thori space icon ke liye */
+    height: 35px;
+}
+
+/* 2. Bell Icon ki original look */
+.notification-bell i {
+    font-size: 20px;
+    color: var(--primary-blue); /* Aapka blue color */
+}
+
+/* 3. Red Badge jo icon ke upar aayega */
+.badge {
+    position: absolute;
+    top: 0px;        /* Bilkul top par */
+    right: 0px;      /* Bilkul right kone par */
+    background-color: #ff0000; /* Red color */
+    color: white;
+    border-radius: 50%;
+    padding: 2px;
+    font-size: 10px;
+    font-weight: bold;
+    min-width: 16px;
+    height: 16px;
+    display: flex; /* Number ko center karne ke liye */
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #101026; /* Background se match karta border taake alag nazar aaye */
+    z-index: 10; /* Taake icon ke upar hi rahay */
+}
+
+/* --- UPDATED NOTIFICATION SYSTEM END --- */

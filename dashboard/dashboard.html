@@ -13,7 +13,10 @@
     <div class="top-bar">
         <i class="fas fa-th-large menu-btn" id="menuToggle" onclick="toggleSidebar()"></i>
         <div style="font-weight:bold; letter-spacing:1px; color:var(--primary-blue);">FAST CASH <span style="color:white;">UI</span></div>
-        <i class="fas fa-bell" style="color:var(--primary-blue); font-size:20px;"></i>
+<div class="notification-bell" onclick="window.location.href='../notification/notification.html'">
+    <i class="fas fa-bell"></i>
+    <span id="notif-count" class="badge" style="display: none;"></span>
+</div>
     </div>
 
     <div class="sidebar" id="mySidebar">
@@ -84,7 +87,7 @@
 
 
 
-episode 2
+
 
   <div class="ep2-container">
     <div class="ep2-card">
@@ -96,6 +99,7 @@ episode 2
         <div id="lock-input-area">
             <input type="number" id="amount-to-lock" placeholder="Enter amount (e.g. 300)" min="100">
             <button id="lock-start-btn" class="btn-primary">Lock Balance Now</button>
+
         </div>
 
         <div id="active-lock-area" style="display: none;">
